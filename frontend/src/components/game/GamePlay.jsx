@@ -79,17 +79,17 @@ export default function GamePlay({
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-6 animate-flip-in">
+    <div className="w-full max-w-4xl mx-auto space-y-3 sm:space-y-4 animate-flip-in">
       {/* Timer and Progress */}
-      <Card className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <Timer className="w-5 h-5 text-primary" />
-            <span className="text-3xl font-bold font-['Space_Grotesk'] tabular-nums">
+      <Card className="p-4 sm:p-5">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Timer className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+            <span className="text-2xl sm:text-3xl font-bold font-['Space_Grotesk'] tabular-nums">
               {formatTime(elapsedTime)}
             </span>
           </div>
-          <Badge variant="outline" className="text-sm font-medium px-3 py-1">
+          <Badge variant="outline" className="text-xs sm:text-sm font-medium px-2 sm:px-3 py-1">
             Word {currentWordIndex + 1} of {dailyWords.length}
           </Badge>
         </div>
@@ -97,7 +97,7 @@ export default function GamePlay({
       </Card>
 
       {/* Word Display */}
-      <Card className={`p-8 text-center ${shake ? 'animate-shake' : ''}`}>
+      <Card className={`p-4 sm:p-6 text-center ${shake ? 'animate-shake' : ''}`}>
         <p className="text-sm text-muted-foreground mb-4 font-medium">Type this word:</p>
         <div className="flex justify-center gap-2 mb-8">
           {currentWord.split('').map((letter, index) => {
