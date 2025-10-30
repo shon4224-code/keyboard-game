@@ -98,8 +98,8 @@ export default function GamePlay({
 
       {/* Word Display */}
       <Card className={`p-4 sm:p-6 text-center ${shake ? 'animate-shake' : ''}`}>
-        <p className="text-sm text-muted-foreground mb-4 font-medium">Type this word:</p>
-        <div className="flex justify-center gap-2 mb-8">
+        <p className="text-sm text-muted-foreground mb-3 font-medium">Type this word:</p>
+        <div className="flex justify-center gap-2 mb-4 sm:mb-6">
           {currentWord.split('').map((letter, index) => {
             const status = getLetterStatus(index);
             return (
