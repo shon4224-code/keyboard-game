@@ -92,7 +92,7 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText }) {
         </div>
         
         {/* Bottom Row */}
-        <div className="flex justify-center gap-2 pt-2">
+        <div className="flex justify-center gap-2 pt-1 sm:pt-2">
           <Button
             onClick={() => handleClick('BACKSPACE')}
             className={`
