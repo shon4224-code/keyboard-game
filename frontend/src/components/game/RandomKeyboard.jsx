@@ -56,8 +56,10 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText }) {
         onClick={() => handleClick(key)}
         className={`
           keyboard-key
-          h-12 sm:h-14 min-w-[2rem] sm:min-w-[2.5rem] px-2 sm:px-3
-          text-base sm:text-lg font-semibold font-['Space_Grotesk']
+          h-10 min-w-[30px] px-1.5
+          sm:h-12 sm:min-w-[36px] sm:px-2
+          md:h-14 md:min-w-[40px] md:px-3
+          text-lg sm:text-xl font-semibold font-['Space_Grotesk']
           rounded-[var(--radius-key)]
           ${
             isPressed
