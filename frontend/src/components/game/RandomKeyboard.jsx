@@ -93,15 +93,14 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText }) {
         </div>
         
         {/* Bottom Row */}
-        <div className="flex justify-center gap-1 sm:gap-2 pt-1 sm:pt-2">
+        <div className="flex justify-center gap-2 sm:gap-3 pt-2 w-full px-1">
           <Button
             onClick={() => handleClick('BACKSPACE')}
             className={`
               keyboard-key
-              h-10 px-3
-              sm:h-12 sm:px-4
-              md:h-14 md:px-6
-              text-xs sm:text-sm font-semibold
+              h-12 flex-1 max-w-[140px]
+              sm:h-14 sm:max-w-[160px]
+              text-sm sm:text-base font-semibold
               rounded-[var(--radius-key)]
               ${
                 pressedKey === 'BACKSPACE'
@@ -111,7 +110,7 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText }) {
             `}
             variant="outline"
           >
-            <Delete className="w-4 h-4 sm:w-5 sm:h-5 mr-1" />
+            <Delete className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
             DELETE
           </Button>
           
@@ -119,10 +118,9 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText }) {
             onClick={() => handleClick('ENTER')}
             className={`
               keyboard-key
-              h-10 px-3
-              sm:h-12 sm:px-4
-              md:h-14 md:px-6
-              text-xs sm:text-sm font-semibold
+              h-12 flex-1 max-w-[140px]
+              sm:h-14 sm:max-w-[160px]
+              text-sm sm:text-base font-semibold
               rounded-[var(--radius-key)]
               ${
                 pressedKey === 'ENTER'
@@ -132,7 +130,7 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText }) {
             `}
             variant="outline"
           >
-            <CornerDownLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-1" />
+            <CornerDownLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
             SUBMIT
           </Button>
         </div>
