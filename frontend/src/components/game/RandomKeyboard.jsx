@@ -94,13 +94,15 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText }) {
         </div>
         
         {/* Bottom Row */}
-        <div className="flex justify-center gap-2 pt-1 sm:pt-2">
+        <div className="flex justify-center gap-1 sm:gap-2 pt-1 sm:pt-2">
           <Button
             onClick={() => handleClick('BACKSPACE')}
             className={`
               keyboard-key
-              h-12 sm:h-14 px-6 sm:px-8
-              text-sm sm:text-base font-semibold
+              h-10 px-3
+              sm:h-12 sm:px-4
+              md:h-14 md:px-6
+              text-xs sm:text-sm font-semibold
               rounded-[var(--radius-key)]
               ${
                 pressedKey === 'BACKSPACE'
@@ -110,7 +112,7 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText }) {
             `}
             variant="outline"
           >
-            <Delete className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+            <Delete className="w-4 h-4 sm:w-5 sm:h-5 mr-1" />
             DELETE
           </Button>
           
@@ -118,8 +120,10 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText }) {
             onClick={() => handleClick('ENTER')}
             className={`
               keyboard-key
-              h-12 sm:h-14 px-6 sm:px-8
-              text-sm sm:text-base font-semibold
+              h-10 px-3
+              sm:h-12 sm:px-4
+              md:h-14 md:px-6
+              text-xs sm:text-sm font-semibold
               rounded-[var(--radius-key)]
               ${
                 pressedKey === 'ENTER'
@@ -129,7 +133,7 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText }) {
             `}
             variant="outline"
           >
-            <CornerDownLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+            <CornerDownLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-1" />
             SUBMIT
           </Button>
         </div>
