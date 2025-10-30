@@ -83,8 +83,8 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText }) {
         </div>
         
         {/* Row 2 */}
-        <div className="flex justify-center gap-1 sm:gap-2">
-          <div className="w-6 sm:w-8" /> {/* Spacer for offset */}
+        <div className="flex justify-center gap-0.5 sm:gap-1 md:gap-2">
+          <div className="w-4 sm:w-6 md:w-8" /> {/* Spacer for offset */}
           {keyboardLayout[1].map(key => renderKey(key, pressedKey === key))}
         </div>
         
