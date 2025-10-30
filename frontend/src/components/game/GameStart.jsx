@@ -52,17 +52,22 @@ export default function GameStart({ onStart, dailyWords }) {
             <Hash className="w-4 h-4" />
             <span className="text-sm font-medium">Today's Words</span>
           </div>
-          <div className="grid grid-cols-5 gap-2 sm:gap-3">
+          <div className="flex flex-col gap-3 max-w-md mx-auto">
             {dailyWords.map((word, index) => (
               <div
                 key={index}
-                className="bg-muted/50 rounded-lg p-3 sm:p-4 space-y-1"
+                className="bg-muted/50 rounded-lg p-4 flex items-center justify-between"
               >
-                <p className="text-xs text-muted-foreground font-medium">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                    <span className="text-sm font-bold text-primary">{index + 1}</span>
+                  </div>
+                  <p className="text-2xl font-bold font-['Space_Grotesk'] text-foreground">
+                    {word.toUpperCase()}
+                  </p>
+                </div>
+                <p className="text-sm text-muted-foreground font-medium">
                   {word.length} letters
-                </p>
-                <p className="text-xl sm:text-2xl font-bold font-['Space_Grotesk'] text-foreground/80">
-                  {word.toUpperCase()}
                 </p>
               </div>
             ))}
