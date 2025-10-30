@@ -14,17 +14,46 @@ export default function GameResults({ completionTime, stats, onPlayAgain }) {
 
   const isNewBest = stats.bestTime === completionTime;
 
-  const handleShare = () => {
-    const shareText = `I completed today's keyboard challenge in ${formatTime(completionTime)}! 🎉\n\nCan you beat my time? Play at [Your URL]`;
+  const handleShare = async () => {
+    const shareText = `I completed today's keyboard challenge in ${formatTime(completionTime)}! 🎉\n\nCan you beat my time?`;
     
     if (navigator.share) {
-      navigator.share({
-        title: 'keyboard Challenge',
-        text: shareText
-      }).catch(() => {});
+      try {
+        await navigator.share({
+          title: 'keyboard Challenge',
+          text: shareText
+        });
+        toast.success('Results shared!');
+      } catch (err) {
+        // User cancelled or share failed, no action needed
+        if (err.name !== 'AbortError') {
+          copyToClipboardFallback(shareText);
+        }
+      }
     } else {
-      navigator.clipboard.writeText(shareText);
+      copyToClipboardFallback(shareText);
+    }
+  };
+  
+  const copyToClipboardFallback = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
       toast.success('Results copied to clipboard!');
+    } catch (err) {
+      // Clipboard API failed, create a fallback
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        toast.success('Results copied to clipboard!');
+      } catch (e) {
+        toast.info('Share text: ' + text);
+      }
+      document.body.removeChild(textarea);
     }
   };
 
