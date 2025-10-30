@@ -74,10 +74,10 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText }) {
   };
 
   return (
-    <Card className="p-2 sm:p-3 md:p-4 space-y-2">
-      <div className="space-y-1 sm:space-y-1.5 md:space-y-2">
+    <Card className="p-3 sm:p-4 md:p-6">
+      <div className="space-y-2 sm:space-y-3">
         {/* Row 1 */}
-        <div className="flex justify-center gap-0.5 sm:gap-1 md:gap-2">
+        <div className="flex justify-center gap-1.5 sm:gap-2 w-full px-1">
           {keyboardLayout[0].map(key => renderKey(key, pressedKey === key))}
         </div>
         
