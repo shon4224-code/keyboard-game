@@ -49,30 +49,7 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText }) {
     setTimeout(() => setPressedKey(null), 150);
   };
 
-  // Get key status for highlighting
-  const getKeyStatus = (key) => {
-    if (!currentWord) return 'default';
-    const upperKey = key.toUpperCase();
-    const upperWord = currentWord.toUpperCase();
-    const upperTyped = typedText.toUpperCase();
-    
-    // Check if key was used correctly in typed portion
-    for (let i = 0; i < typedText.length; i++) {
-      if (upperTyped[i] === upperKey && upperTyped[i] === upperWord[i]) {
-        return 'correct';
-      }
-    }
-    
-    // Check if key is needed for remaining letters
-    if (upperWord.includes(upperKey)) {
-      return 'needed';
-    }
-    
-    return 'default';
-  };
-
   const renderKey = (key, isPressed) => {
-    const status = getKeyStatus(key);
     return (
       <Button
         key={key}
@@ -85,10 +62,6 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText }) {
           ${
             isPressed
               ? 'scale-95 bg-primary text-primary-foreground'
-              : status === 'correct'
-              ? 'bg-success/20 text-success border-success/50 hover:bg-success/30'
-              : status === 'needed'
-              ? 'bg-primary/10 text-primary border-primary/30 hover:bg-primary/20'
               : 'bg-card hover:bg-muted border-border'
           }
         `}
