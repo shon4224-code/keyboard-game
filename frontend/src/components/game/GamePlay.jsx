@@ -134,7 +134,7 @@ export default function GamePlay({
       </Card>
 
       {/* Words Checklist */}
-      <Card className="p-4">
+      <Card className="p-3 sm:p-4">
         <div className="flex items-center justify-center gap-3 flex-wrap">
           {dailyWords.map((word, index) => (
             <div
