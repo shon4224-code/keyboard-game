@@ -55,7 +55,14 @@ export default function GamePlay({
           // Move to next word
           setCurrentWordIndex(prev => prev + 1);
           setTypedText('');
-          toast.success(`Correct! ${dailyWords.length - currentWordIndex - 1} words remaining`);
+          
+          // In hard mode, scramble keyboard for next word
+          if (difficulty === 'hard') {
+            setKeyboardKey(prev => prev + 1);
+            toast.success(`Correct! Keyboard scrambled! ${dailyWords.length - currentWordIndex - 1} words remaining`);
+          } else {
+            toast.success(`Correct! ${dailyWords.length - currentWordIndex - 1} words remaining`);
+          }
         }
       } else if (typedText.length > 0) {
         // Wrong word
@@ -69,7 +76,7 @@ export default function GamePlay({
         setTypedText(prev => prev + key);
       }
     }
-  }, [typedText, currentWord, currentWordIndex, dailyWords.length, setCurrentWordIndex, setTypedText, onComplete]);
+  }, [typedText, currentWord, currentWordIndex, dailyWords.length, setCurrentWordIndex, setTypedText, onComplete, difficulty]);
 
   // Check if current letter is correct
   const getLetterStatus = (index) => {
