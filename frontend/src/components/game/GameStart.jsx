@@ -29,44 +29,44 @@ export default function GameStart({ onStart, dailyWords, difficulty, setDifficul
 
   return (
     <div className="w-full max-w-2xl mx-auto animate-bounce-in">
-      <Card className="p-8 sm:p-12 text-center space-y-6 shadow-lg">
+      <Card className="p-6 sm:p-8 text-center space-y-4 shadow-lg">
         {/* Title Section */}
-        <div className="space-y-3">
+        <div className="space-y-2">
           <div className="inline-block">
-            <Badge variant="outline" className="px-4 py-1 text-sm font-medium">
-              <Calendar className="w-4 h-4 mr-2 inline" />
+            <Badge variant="outline" className="px-3 py-1 text-xs font-medium">
+              <Calendar className="w-3 h-3 mr-1.5 inline" />
               {today}
             </Badge>
           </div>
-          <h2 className="text-4xl sm:text-5xl font-bold font-['Space_Grotesk'] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold font-['Space_Grotesk'] tracking-tight">
             Today's Challenge
           </h2>
-          <p className="text-lg text-muted-foreground max-w-md mx-auto">
+          <p className="text-base text-muted-foreground max-w-md mx-auto">
             Type all 5 words as fast as you can on a randomized keyboard!
           </p>
         </div>
 
         {/* Words Preview */}
-        <div className="space-y-4 py-6">
+        <div className="space-y-3 py-3">
           <div className="flex items-center justify-center gap-2 text-muted-foreground">
-            <Hash className="w-4 h-4" />
-            <span className="text-sm font-medium">Today's Words</span>
+            <Hash className="w-3 h-3" />
+            <span className="text-xs font-medium">Today's Words</span>
           </div>
-          <div className="flex flex-col gap-3 max-w-md mx-auto">
+          <div className="flex flex-col gap-2 max-w-md mx-auto">
             {dailyWords.map((word, index) => (
               <div
                 key={index}
-                className="bg-muted/50 rounded-lg p-4 flex items-center justify-between"
+                className="bg-muted/50 rounded-lg p-3 flex items-center justify-between"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <span className="text-sm font-bold text-primary">{index + 1}</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <span className="text-xs font-bold text-primary">{index + 1}</span>
                   </div>
-                  <p className="text-2xl font-bold font-['Space_Grotesk'] text-foreground">
+                  <p className="text-lg font-bold font-['Space_Grotesk'] text-foreground">
                     {word.toUpperCase()}
                   </p>
                 </div>
-                <p className="text-sm text-muted-foreground font-medium">
+                <p className="text-xs text-muted-foreground font-medium">
                   {word.length} letters
                 </p>
               </div>
@@ -74,36 +74,25 @@ export default function GameStart({ onStart, dailyWords, difficulty, setDifficul
           </div>
         </div>
 
-        {/* Instructions */}
-        <div className="bg-muted/30 rounded-lg p-4 space-y-2 text-left">
-          <h3 className="font-semibold text-sm">How to Play:</h3>
-          <ul className="text-sm text-muted-foreground space-y-1">
-            <li>• Click START to begin the timer</li>
-            <li>• Type each word in order using the randomized keyboard</li>
-            <li>• Press ENTER or SPACE to submit each word</li>
-            <li>• Complete all 5 words to stop the timer</li>
-          </ul>
-        </div>
-
         {/* Difficulty Selection */}
-        <div className="space-y-3">
+        <div className="space-y-2 pt-2">
           <h3 className="font-semibold text-sm text-center">Choose Difficulty:</h3>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => setDifficulty('normal')}
               className={`
-                p-4 rounded-lg border-2 transition-all
+                p-3 rounded-lg border-2 transition-all
                 ${difficulty === 'normal' 
                   ? 'border-primary bg-primary/10 shadow-md' 
                   : 'border-border hover:border-primary/50'
                 }
               `}
             >
-              <div className="flex flex-col items-center gap-2">
-                <Shield className="w-6 h-6 text-primary" />
-                <span className="font-semibold">Normal</span>
+              <div className="flex flex-col items-center gap-1.5">
+                <Shield className="w-5 h-5 text-primary" />
+                <span className="font-semibold text-sm">Normal</span>
                 <span className="text-xs text-muted-foreground text-center">
-                  Keyboard stays the same
+                  Same keyboard
                 </span>
               </div>
             </button>
@@ -111,18 +100,18 @@ export default function GameStart({ onStart, dailyWords, difficulty, setDifficul
             <button
               onClick={() => setDifficulty('hard')}
               className={`
-                p-4 rounded-lg border-2 transition-all
+                p-3 rounded-lg border-2 transition-all
                 ${difficulty === 'hard' 
                   ? 'border-destructive bg-destructive/10 shadow-md' 
                   : 'border-border hover:border-destructive/50'
                 }
               `}
             >
-              <div className="flex flex-col items-center gap-2">
-                <Zap className="w-6 h-6 text-destructive" />
-                <span className="font-semibold text-destructive">Hard Mode</span>
+              <div className="flex flex-col items-center gap-1.5">
+                <Zap className="w-5 h-5 text-destructive" />
+                <span className="font-semibold text-sm text-destructive">Hard</span>
                 <span className="text-xs text-muted-foreground text-center">
-                  Keyboard scrambles after each word!
+                  Scrambles each word!
                 </span>
               </div>
             </button>
@@ -130,19 +119,19 @@ export default function GameStart({ onStart, dailyWords, difficulty, setDifficul
         </div>
 
         {/* Start Button */}
-        <div className="pt-4">
+        <div className="pt-3">
           {countdown === null ? (
             <Button
               size="lg"
               onClick={handleStart}
-              className="w-full sm:w-auto px-12 py-6 text-lg font-semibold bg-primary hover:bg-primary/90 animate-pulse-glow"
+              className="w-full sm:w-auto px-8 py-5 text-base font-semibold bg-primary hover:bg-primary/90 animate-pulse-glow"
             >
-              <Play className="w-5 h-5 mr-2" />
+              <Play className="w-4 h-4 mr-2" />
               START CHALLENGE
             </Button>
           ) : (
             <div className="text-center">
-              <div className="text-7xl font-bold font-['Space_Grotesk'] text-primary animate-bounce-in">
+              <div className="text-6xl font-bold font-['Space_Grotesk'] text-primary animate-bounce-in">
                 {countdown}
               </div>
               <p className="text-sm text-muted-foreground mt-2">Get ready...</p>
