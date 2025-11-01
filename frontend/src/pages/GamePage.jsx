@@ -79,7 +79,12 @@ export default function GamePage() {
       
       <main className="flex-1 flex items-center justify-center px-4 py-8">
         {gameState === 'start' && (
-          <GameStart onStart={handleStartGame} dailyWords={dailyWords} />
+          <GameStart 
+            onStart={handleStartGame} 
+            dailyWords={dailyWords}
+            difficulty={difficulty}
+            setDifficulty={setDifficulty}
+          />
         )}
         
         {gameState === 'playing' && (
@@ -91,6 +96,7 @@ export default function GamePage() {
             typedText={typedText}
             setTypedText={setTypedText}
             onComplete={handleGameComplete}
+            difficulty={difficulty}
           />
         )}
         
