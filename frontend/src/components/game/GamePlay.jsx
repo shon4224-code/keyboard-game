@@ -13,10 +13,12 @@ export default function GamePlay({
   setCurrentWordIndex,
   typedText,
   setTypedText,
-  onComplete
+  onComplete,
+  difficulty
 }) {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [shake, setShake] = useState(false);
+  const [keyboardKey, setKeyboardKey] = useState(0); // Force keyboard re-render
 
   const currentWord = dailyWords[currentWordIndex];
   const progress = ((currentWordIndex) / dailyWords.length) * 100;
