@@ -98,9 +98,16 @@ export default function GamePlay({
               {formatTime(elapsedTime)}
             </span>
           </div>
-          <Badge variant="outline" className="text-xs sm:text-sm font-medium px-2 sm:px-3 py-1">
-            Word {currentWordIndex + 1} of {dailyWords.length}
-          </Badge>
+          <div className="flex items-center gap-2">
+            {difficulty === 'hard' && (
+              <Badge variant="destructive" className="text-xs font-medium">
+                Hard Mode
+              </Badge>
+            )}
+            <Badge variant="outline" className="text-xs sm:text-sm font-medium px-2 sm:px-3 py-1">
+              Word {currentWordIndex + 1} of {dailyWords.length}
+            </Badge>
+          </div>
         </div>
         <Progress value={progress} className="h-2" />
       </Card>
