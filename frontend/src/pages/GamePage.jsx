@@ -13,6 +13,7 @@ export default function GamePage() {
   const [endTime, setEndTime] = useState(null);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [typedText, setTypedText] = useState('');
+  const [difficulty, setDifficulty] = useState('normal'); // normal or hard
   const [stats, setStats] = useState({
     todayTime: null,
     bestTime: null,
