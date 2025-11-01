@@ -170,7 +170,12 @@ export default function GamePlay({
       </Card>
 
       {/* Keyboard */}
-      <RandomKeyboard onKeyPress={handleKeyPress} currentWord={currentWord} typedText={typedText} />
+      <RandomKeyboard 
+        onKeyPress={handleKeyPress} 
+        currentWord={currentWord} 
+        typedText={typedText}
+        keyboardKey={keyboardKey}
+      />
     </div>
   );
 }
