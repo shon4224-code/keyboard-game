@@ -3,10 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Delete, CornerDownLeft } from 'lucide-react';
 
-export default function RandomKeyboard({ onKeyPress, currentWord, typedText }) {
+export default function RandomKeyboard({ onKeyPress, currentWord, typedText, keyboardKey = 0 }) {
   const [pressedKey, setPressedKey] = useState(null);
 
-  // Generate randomized keyboard layout (memoized so it doesn't change)
+  // Generate randomized keyboard layout (regenerates when keyboardKey changes)
   const keyboardLayout = useMemo(() => {
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     const shuffled = [...letters].sort(() => Math.random() - 0.5);
@@ -17,7 +17,7 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText }) {
       shuffled.slice(10, 19),
       shuffled.slice(19, 26)
     ];
-  }, []); // Empty dependency array means this only runs once
+  }, [keyboardKey]); // Regenerate when keyboardKey changes
 
   // Handle physical keyboard
   useEffect(() => {
