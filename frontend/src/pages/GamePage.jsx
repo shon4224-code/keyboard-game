@@ -51,7 +51,7 @@ export default function GamePage() {
     setStartTime(Date.now());
     setCurrentWordIndex(0);
     setTypedText('');
-    toast.success('Game started! Good luck!');
+    toast.success(`${difficulty === 'hard' ? 'Hard Mode' : 'Normal Mode'} started! Good luck!`);
   };
 
   const handleGameComplete = () => {
