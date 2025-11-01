@@ -85,6 +85,50 @@ export default function GameStart({ onStart, dailyWords, difficulty, setDifficul
           </ul>
         </div>
 
+        {/* Difficulty Selection */}
+        <div className="space-y-3">
+          <h3 className="font-semibold text-sm text-center">Choose Difficulty:</h3>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              onClick={() => setDifficulty('normal')}
+              className={`
+                p-4 rounded-lg border-2 transition-all
+                ${difficulty === 'normal' 
+                  ? 'border-primary bg-primary/10 shadow-md' 
+                  : 'border-border hover:border-primary/50'
+                }
+              `}
+            >
+              <div className="flex flex-col items-center gap-2">
+                <Shield className="w-6 h-6 text-primary" />
+                <span className="font-semibold">Normal</span>
+                <span className="text-xs text-muted-foreground text-center">
+                  Keyboard stays the same
+                </span>
+              </div>
+            </button>
+            
+            <button
+              onClick={() => setDifficulty('hard')}
+              className={`
+                p-4 rounded-lg border-2 transition-all
+                ${difficulty === 'hard' 
+                  ? 'border-destructive bg-destructive/10 shadow-md' 
+                  : 'border-border hover:border-destructive/50'
+                }
+              `}
+            >
+              <div className="flex flex-col items-center gap-2">
+                <Zap className="w-6 h-6 text-destructive" />
+                <span className="font-semibold text-destructive">Hard Mode</span>
+                <span className="text-xs text-muted-foreground text-center">
+                  Keyboard scrambles after each word!
+                </span>
+              </div>
+            </button>
+          </div>
+        </div>
+
         {/* Start Button */}
         <div className="pt-4">
           {countdown === null ? (
