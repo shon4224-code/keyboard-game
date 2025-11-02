@@ -34,7 +34,8 @@ const WORD_POOLS = {
   ],
   9: [
     'streaming', 'efficient', 'framework', 'architect', 'interface', 'bootstrap', 'container', 'algorithm', 'character', 'component',
-    'ecosystem', 'framework', 'immutable', 'normalize', 'polymeric', 'recursive', 'serialize', 'singleton', 'wireframe', 'workspace'\n  ]
+    'ecosystem', 'framework', 'immutable', 'normalize', 'polymeric', 'recursive', 'serialize', 'singleton', 'wireframe', 'workspace'
+  ]
 };
 
 // Simple seeded random number generator
