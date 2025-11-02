@@ -28,6 +28,7 @@ export default function GamePage() {
     const challenge = getDailyChallenge();
     setDailyWords(challenge.words);
     loadStats();
+    setStreakData(getStreakData());
   }, []);
 
   const loadStats = () => {
