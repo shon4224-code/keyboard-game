@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Play, Calendar, Hash, Zap, Shield, Flame, Quote } from 'lucide-react';
+import { Play, Calendar, Hash, Zap, Shield, Flame, Quote, Brain } from 'lucide-react';
 
-export default function GameStart({ onStart, dailyWords, dailyQuote, difficulty, setDifficulty, gameMode, setGameMode, streakData }) {
+export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuestions = [], difficulty, setDifficulty, gameMode, setGameMode, streakData }) {
   const [countdown, setCountdown] = useState(null);
 
   useEffect(() => {
