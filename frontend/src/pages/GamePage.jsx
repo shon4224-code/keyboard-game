@@ -106,14 +106,13 @@ export default function GamePage() {
   };
 
   const handlePlayAgain = () => {
-    // Check if it's a new day
-    const challenge = getDailyChallenge();
-    setDailyWords(challenge.words);
+    loadDailyContent();
     setGameState('start');
     setStartTime(null);
     setEndTime(null);
     setCurrentWordIndex(0);
     setTypedText('');
+    setMistakes(0);
   };
 
   return (
