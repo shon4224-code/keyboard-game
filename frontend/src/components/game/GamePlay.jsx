@@ -24,6 +24,22 @@ export default function GamePlay({
   const [elapsedTime, setElapsedTime] = useState(0);
   const [shake, setShake] = useState(false);
   const [keyboardKey, setKeyboardKey] = useState(0); // Force keyboard re-render
+  
+  // If quote mode, use different component
+  if (gameMode === 'quote') {
+    return (
+      <GamePlayQuote
+        dailyQuote={dailyQuote}
+        startTime={startTime}
+        typedText={typedText}
+        setTypedText={setTypedText}
+        onComplete={onComplete}
+        difficulty={difficulty}
+        mistakes={mistakes}
+        setMistakes={setMistakes}
+      />
+    );
+  }
 
   const currentWord = dailyWords[currentWordIndex];
   const progress = ((currentWordIndex) / dailyWords.length) * 100;
