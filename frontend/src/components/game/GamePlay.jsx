@@ -77,8 +77,8 @@ export default function GamePlay({
           setCurrentWordIndex(prev => prev + 1);
           setTypedText('');
           
-          // In hard mode, scramble keyboard for next word
-          if (difficulty === 'hard') {
+          // In hard/insane mode, scramble keyboard for next word
+          if (difficulty === 'hard' || difficulty === 'insane') {
             setKeyboardKey(prev => prev + 1);
             toast.success(`Correct! Keyboard scrambled! ${dailyWords.length - currentWordIndex - 1} words remaining`);
           } else {
@@ -88,16 +88,22 @@ export default function GamePlay({
       } else if (typedText.length > 0) {
         // Wrong word
         setShake(true);
+        setMistakes(prev => prev + 1);
         setTimeout(() => setShake(false), 300);
         toast.error('Incorrect! Try again');
       }
     } else {
       // Regular key
       if (typedText.length < currentWord.length) {
+        // Track if this is a mistake
+        const expectedChar = currentWord[typedText.length];
+        if (key.toLowerCase() !== expectedChar.toLowerCase()) {
+          setMistakes(prev => prev + 1);
+        }
         setTypedText(prev => prev + key);
       }
     }
-  }, [typedText, currentWord, currentWordIndex, dailyWords.length, setCurrentWordIndex, setTypedText, onComplete, difficulty]);
+  }, [typedText, currentWord, currentWordIndex, dailyWords.length, setCurrentWordIndex, setTypedText, onComplete, difficulty, setMistakes]);
 
   // Check if current letter is correct
   const getLetterStatus = (index) => {
