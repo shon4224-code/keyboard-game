@@ -1,8 +1,9 @@
 import { Trophy, Zap, TrendingUp } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
-export default function GameHeader({ stats }) {
+export default function GameHeader({ stats, onShowLeaderboard }) {
   const formatTime = (ms) => {
     if (!ms) return '--';
     const seconds = Math.floor(ms / 1000);
@@ -30,6 +31,18 @@ export default function GameHeader({ stats }) {
 
           {/* Stats */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {onShowLeaderboard && (
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={onShowLeaderboard}
+                className="gap-2"
+              >
+                <Trophy className="w-4 h-4" />
+                Leaderboard
+              </Button>
+            )}
+            
             <Card className="px-3 py-2 flex items-center gap-2">
               <Trophy className="w-4 h-4 text-accent" />
               <div className="text-left">
