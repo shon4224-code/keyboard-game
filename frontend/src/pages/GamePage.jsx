@@ -81,16 +81,23 @@ export default function GamePage() {
     setEndTime(completionTime);
     setGameState('complete');
     
+    // Calculate WPM and accuracy
+    const totalText = gameMode === 'quote' ? dailyQuote : dailyWords.join('');
+    const wpm = calculateWPM(totalText, completionTime);
+    const accuracy = calculateAccuracy(totalText.length, totalText.length, mistakes);
+    
     // Update streak
     const newStreakData = updateStreak();
     setStreakData(newStreakData);
     
-    // Save stats with streak
+    // Save stats with WPM and accuracy
     const newStats = {
       todayTime: completionTime,
       bestTime: stats.bestTime ? Math.min(stats.bestTime, completionTime) : completionTime,
       gamesPlayed: stats.gamesPlayed + 1,
-      streak: newStreakData.currentStreak
+      streak: newStreakData.currentStreak,
+      wpm,
+      accuracy
     };
     localStorage.setItem('keyboard_stats', JSON.stringify(newStats));
     setStats(newStats);
