@@ -2,7 +2,11 @@
 // This ensures everyone gets the same words on the same day
 
 const WORD_POOLS = {
-  3: [\n    'the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'her',\n    'was', 'one', 'our', 'out', 'day', 'get', 'has', 'him', 'his', 'how',\n    'man', 'new', 'now', 'old', 'see', 'two', 'way', 'who', 'boy', 'did'\n  ],
+  3: [
+    'the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'her',
+    'was', 'one', 'our', 'out', 'day', 'get', 'has', 'him', 'his', 'how',
+    'man', 'new', 'now', 'old', 'see', 'two', 'way', 'who', 'boy', 'did'
+  ],
   4: [
     'code', 'type', 'fast', 'game', 'play', 'word', 'time', 'keys', 'rush', 'beat',
     'jump', 'spin', 'dash', 'flux', 'zoom', 'glow', 'blur', 'sync', 'hack', 'byte',
