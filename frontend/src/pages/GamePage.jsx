@@ -4,6 +4,7 @@ import GameStart from '@/components/game/GameStart';
 import GamePlay from '@/components/game/GamePlay';
 import GameResults from '@/components/game/GameResults';
 import { generateDailyWords, getDailyChallenge } from '@/utils/wordGenerator';
+import { getStreakData, updateStreak, hasPlayedToday } from '@/utils/streakManager';
 import { toast } from 'sonner';
 
 export default function GamePage() {
@@ -14,6 +15,7 @@ export default function GamePage() {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [typedText, setTypedText] = useState('');
   const [difficulty, setDifficulty] = useState('normal'); // normal or hard
+  const [streakData, setStreakData] = useState(getStreakData());
   const [stats, setStats] = useState({
     todayTime: null,
     bestTime: null,
