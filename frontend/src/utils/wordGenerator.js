@@ -2,6 +2,7 @@
 // This ensures everyone gets the same words on the same day
 
 const WORD_POOLS = {
+  3: [\n    'the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'her',\n    'was', 'one', 'our', 'out', 'day', 'get', 'has', 'him', 'his', 'how',\n    'man', 'new', 'now', 'old', 'see', 'two', 'way', 'who', 'boy', 'did'\n  ],
   4: [
     'code', 'type', 'fast', 'game', 'play', 'word', 'time', 'keys', 'rush', 'beat',
     'jump', 'spin', 'dash', 'flux', 'zoom', 'glow', 'blur', 'sync', 'hack', 'byte',
@@ -26,7 +27,10 @@ const WORD_POOLS = {
     'champion', 'keyboard', 'powerful', 'infinite', 'ultimate', 'legendary', 'velocity', 'paradise', 'treasure', 'platinum',
     'database', 'function', 'response', 'generate', 'validate', 'organize', 'engineer', 'abstract', 'username', 'password',
     'protocol', 'security', 'template', 'document', 'variable', 'constant', 'behavior', 'endpoint', 'callback', 'manifest'
-  ]
+  ],
+  9: [
+    'streaming', 'efficient', 'framework', 'architect', 'interface', 'bootstrap', 'container', 'algorithm', 'character', 'component',
+    'ecosystem', 'framework', 'immutable', 'normalize', 'polymeric', 'recursive', 'serialize', 'singleton', 'wireframe', 'workspace'\n  ]
 };
 
 // Simple seeded random number generator
