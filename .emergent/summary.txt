@@ -1,0 +1,122 @@
+<analysis>
+The AI engineer successfully guided the user from initial concept to a deployed, feature-rich Keyboard game, adhering to strict design principles and a design system-first approach. Initial steps involved design research and scaffolding the React application with Shadcn/UI and Tailwind CSS. The core game with daily words, a randomized keyboard, and timer was built, followed by iterative refinements based on user feedback on UI layout and mobile responsiveness. A key part of the trajectory involved deploying the application, where the AI engineer patiently guided the user through GitHub setup, Vercel deployment, and GoDaddy domain connection, troubleshooting several user-side deployment issues. Finally, the AI prioritized and implemented Phase 1 viral features: WPM/accuracy tracking, a daily quote mode, and expanded difficulty levels, pushing the game towards enhanced engagement and uniqueness.
+</analysis>
+
+<product_requirements>
+The user initially requested a Wordle-like game called Keyboard with a daily challenge involving five words of varying lengths (4 to 8 letters). The core gameplay includes a start button, a timer, and a daily randomized keyboard on which the user must type all five words in order. The overarching requirement was a beautiful UI/UX, following a design system-first approach using React, FastAPI (backend not heavily utilized for game logic), Tailwind, and Shadcn/UI.
+
+As development progressed, the user requested several enhancements:
+-   **Keyboard highlighting removal:** Keyboard keys should not highlight the current word, increasing difficulty.
+-   **Word stacking:** Daily words should be stacked vertically for better screen fit.
+-   **Visibility on smaller screens:** Ensure all game elements (words, timer, keyboard) are visible without scrolling, especially on laptop/mobile.
+-   **PWA capabilities:** Make the web app installable to the home screen for an app-like experience.
+-   **iPhone keyboard sizing:** Adjust keyboard keys to match standard iPhone size, then later to be larger and spread out to max screen width.
+-   **Hard Mode:** Implement a Hard Mode where the keyboard scrambles after each word.
+-   **Viral Growth Features:** Ideas for making the game more fun, addictive, and popular, leading to a request for:
+    -   Visual Share Cards
+    -   Streaks System
+    -   WPM (Words Per Minute) + Accuracy Tracking
+    -   Daily Quote Mode
+    -   Easy and Insane difficulty levels
+</product_requirements>
+
+<key_technical_concepts>
+
+-   **React.js:** Frontend framework for building the user interface.
+-   **Tailwind CSS:** Utility-first CSS framework for styling, driven by a semantic design system.
+-   **Shadcn/UI:** Component library providing accessible and customizable UI primitives.
+-   **HSL Color Format:** Strict adherence to HSL for design tokens to support light/dark modes and maintain consistency.
+-   **Progressive Web App (PWA):** Web application installable on devices with offline capabilities.
+-   **Git/GitHub:** Version control and repository management.
+-   **Vercel:** Cloud platform for static sites and serverless functions, used for deployment.
+-   **GoDaddy:** Domain registrar for managing custom domains.
+-   **LocalStorage:** Client-side storage used for game state and streak persistence.
+
+</key_technical_concepts>
+
+<code_architecture>
+
+The application follows a standard React frontend architecture () with a FastAPI backend () which is present but not actively used for the game's core logic as it relies on client-side generation and localStorage.
+
+**Directory Structure:**
+
+
+
+**Key Files and Their Importance:**
+
+-   :
+    -   **Importance:** Defines the core design system with semantic HSL color tokens, custom gradients, shadows, and animations. It's the foundation of the app's visual identity, supporting light/dark modes.
+    -   **Changes:** Initially configured with a teal-centric theme, then adjusted for spacing and other design elements per guidelines.
+-   :
+    -   **Importance:** Extends Tailwind CSS with custom theme configurations, referencing CSS variables defined in .
+    -   **Changes:** Configured to consume the HSL design tokens, ensuring consistent styling.
+-   :
+    -   **Importance:** The main application entry point, handling routing (though a single-page game in this prototype), overall layout, and integrating global components like the  and .
+    -   **Changes:** Adjusted overall padding and container sizing for responsiveness. Integrated  for PWA functionality.
+-   :
+    -   **Importance:** Manages the game's overall state (mode, difficulty, current words/quote, timer, results display) and orchestrates the flow between , , and .
+    -   **Changes:** Updated to handle multiple game modes (words, quote), different difficulty levels, and integrate WPM/accuracy tracking.
+-   :
+    -   **Importance:** The initial screen displaying today's date, the list of words/quote, difficulty selection, game mode selection, and the START CHALLENGE button. It also shows the current streak.
+    -   **Changes:** Redesigned to compactly display words, difficulty options (Normal, Hard, Easy, Insane), and game mode selection (Words, Quote). Spacing was tightened for better fit on small screens.
+-   :
+    -   **Importance:** The core component for the word-typing game mode. It handles user input, compares typed letters to the target word, tracks mistakes, manages the timer, and provides visual feedback.
+    -   **Changes:** Integrated mistake tracking and adapted to scramble the keyboard in Hard Mode.
+-   :
+    -   **Importance:** A new component specifically created to handle the Daily Quote typing game mode, distinct from the word-typing logic.
+    -   **Changes:** Designed from scratch to handle typing a full sentence, tracking progress, and displaying feedback.
+-   :
+    -   **Importance:** Displays the final results of a game round, including completion time, WPM, accuracy, streak, and provides options to share results or play again.
+    -   **Changes:** Enhanced to display WPM and accuracy metrics, show streak milestones, and integrate the  functionality.
+-   :
+    -   **Importance:** Renders the virtual keyboard with a randomized layout for each game or after each word in hard mode.
+    -   **Changes:** Modified to regenerate the keyboard layout based on difficulty and mode changes.
+-   :
+    -   **Importance:** Represents an individual key on the virtual keyboard, handling press states and displaying the letter.
+    -   **Changes:** Adjusted key size, spacing, and text size to match iPhone keyboard ergonomics, then later made them larger to fill screen width. Removed hint highlighting.
+-   :
+    -   **Importance:** Generates the daily set of words based on the current date and selected difficulty.
+    -   **Changes:** Expanded to support  and  difficulties with different word counts and lengths. Fixed syntax errors related to string literals.
+-   :
+    -   **Importance:** New utility to provide a daily quote for the Quote game mode.
+    -   **Changes:** Created to generate a unique quote based on the day.
+-   :
+    -   **Importance:** New utility to manage and persist the user's daily playing streak using .
+    -   **Changes:** Created to track and update streaks.
+-   :
+    -   **Importance:** New utility to create shareable content (text and potentially visual) for social media, summarizing game results.
+    -   **Changes:** Created to generate share messages including time, mode, streak, and a link.
+-   :
+    -   **Importance:** New utility to calculate WPM and accuracy from raw game data.
+    -   **Changes:** Created to calculate Words Per Minute and typing accuracy.
+-   PWA related files (, , , ):
+    -   **Importance:** Enable the application to function as a Progressive Web App, allowing users to install it to their home screen and potentially work offline.
+    -   **Changes:** Created and configured these files to meet PWA standards, including temporary SVG icons and a prompt for installation.
+-   :
+    -   **Importance:** Vercel deployment configuration file.
+    -   **Changes:** Created to simplify deployment, then later simplified further to resolve deployment errors.
+
+</code_architecture>
+
+<pending_tasks>
+-   **Global Leaderboards:** This feature was deferred to Option C and currently requires backend support (database, APIs for score submission/retrieval, and cheat prevention) for a real-time, global system.
+-   **Typing + Trivia Hybrid:** This unique game mode, proposed as a Phase 2 feature, has not yet been implemented.
+-   **Editorial Typing Challenge:** This mode, also a Phase 2 feature, is pending implementation.
+-   **Typing Time Attack:** A Phase 3 feature involving rhythm-based typing, is yet to be implemented.
+</pending_tasks>
+
+<current_work>
+
+The AI engineer has successfully implemented **Phase 1** of the viral growth features. This includes:
+1.  **WPM (Words Per Minute) and Accuracy Tracking:** The game now calculates and displays these metrics on the  screen, providing a more comprehensive performance overview.
+2.  **Daily Quote Mode:** A new game mode has been introduced where users type a meaningful sentence (quote) instead of five individual words, increasing engagement and variety. This is handled by the newly created  and .
+3.  **Expanded Difficulty Levels:** Beyond Normal and Hard, the game now includes Easy (3 words, no scramble) and Insane (7 words, faster scramble) difficulties, catering to a wider range of player skill levels.
+
+To support these features, several new utility files were created (, , , ), and core components like , , , and  were extensively updated. The  was also modified to support the new difficulty levels.
+
+The code for these features has been committed and pushed to the GitHub repository (), and the AI engineer is currently in the process of guiding the user to verify these changes on the deployed Vercel application (), instructing them on how to perform a hard refresh to ensure the latest version is loaded. The deployment process has been confirmed to be ongoing (Vercel building the new version).
+</current_work>
+
+<optional_next_step>
+Verify the deployment of the recently added Phase 1 features (WPM/accuracy, Daily Quote mode, Easy/Insane difficulties) on the Vercel URL and guide the user to hard refresh their browser to see the updates.
+</optional_next_step>
