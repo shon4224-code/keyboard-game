@@ -105,15 +105,15 @@ export default function GamePlayQuote({
       {/* Quote Display */}
       <Card className="p-4 sm:p-6 text-center">
         <p className="text-sm text-muted-foreground mb-3 font-medium">Type this quote:</p>
-        <div className="text-left max-w-2xl mx-auto bg-muted/30 rounded-lg p-4">
-          <p className="text-base sm:text-lg font-mono leading-relaxed">
+        <div className="text-left max-w-2xl mx-auto bg-muted/30 rounded-lg p-4 overflow-hidden">
+          <p className="text-sm sm:text-base font-mono leading-relaxed break-words">
             {dailyQuote.split('').map((char, index) => {
               const status = getCharStatus(index);
               return (
                 <span
                   key={index}
                   className={`
-                    transition-all duration-100
+                    transition-all duration-100 inline
                     ${
                       status === 'correct'
                         ? 'text-success font-semibold'
