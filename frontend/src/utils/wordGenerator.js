@@ -48,15 +48,28 @@ function getDayNumber() {
   return Math.floor(diff / oneDay);
 }
 
-// Generate daily words
-export function generateDailyWords() {
+// Generate daily words based on difficulty
+export function generateDailyWords(difficulty = 'normal') {
   const day = getDayNumber();
-  const words = [];
+  let wordConfig;
   
-  // Select one word from each pool using the day as seed
-  [4, 5, 6, 7, 8].forEach((length, index) => {
+  switch(difficulty) {
+    case 'easy':
+      wordConfig = [3, 4, 5]; // 3 words
+      break;
+    case 'insane':
+      wordConfig = [5, 6, 7, 8, 9, 8, 7]; // 7 words
+      break;
+    case 'normal':
+    case 'hard':
+    default:
+      wordConfig = [4, 5, 6, 7, 8]; // 5 words
+  }
+  
+  const words = [];
+  wordConfig.forEach((length, index) => {
     const pool = WORD_POOLS[length];
-    const seed = day * 5 + index; // Different seed for each word
+    const seed = day * wordConfig.length + index;
     const randomIndex = Math.floor(seededRandom(seed) * pool.length);
     words.push(pool[randomIndex]);
   });
@@ -64,10 +77,10 @@ export function generateDailyWords() {
   return words;
 }
 
-// Get daily challenge (with caching)
-export function getDailyChallenge() {
+// Get daily challenge (with caching by difficulty)
+export function getDailyChallenge(difficulty = 'normal') {
   const day = getDayNumber();
-  const cacheKey = 'keyboard_daily_challenge';
+  const cacheKey = `keyboard_daily_challenge_${difficulty}`;
   const cached = localStorage.getItem(cacheKey);
   
   if (cached) {
@@ -78,10 +91,10 @@ export function getDailyChallenge() {
   }
   
   // Generate new challenge
-  const challenge = {
-    day,
+  const challenge = {\n    day,
     date: new Date().toISOString(),
-    words: generateDailyWords()
+    words: generateDailyWords(difficulty),
+    difficulty
   };
   
   localStorage.setItem(cacheKey, JSON.stringify(challenge));
