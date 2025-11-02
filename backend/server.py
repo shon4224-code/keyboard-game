@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field, ConfigDict
 from typing import List
 import uuid
 from datetime import datetime, timezone
+from routes import setup_routes
 
 
 ROOT_DIR = Path(__file__).parent
@@ -24,6 +25,9 @@ app = FastAPI()
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
+
+# Setup game routes (leaderboard, trivia, users)
+game_router = setup_routes(db)
 
 
 # Define Models
