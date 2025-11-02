@@ -1,11 +1,16 @@
 // Generate shareable text for social media
 
 const getAppUrl = () => {
-  // Use current domain or fallback to keyboardjumble.com
-  if (typeof window !== 'undefined') {
+  // Use current domain from window, environment variable, or fallback
+  if (typeof window !== 'undefined' && window.location.origin) {
     return window.location.origin;
   }
-  return 'https://keyboardjumble.com';
+  // Use environment variable if available
+  if (process.env.REACT_APP_BASE_URL) {
+    return process.env.REACT_APP_BASE_URL;
+  }
+  // Final fallback for server-side rendering or build time
+  return 'https://keyboard-game-2i5h.vercel.app';
 };
 
 export const generateShareText = (stats) => {
