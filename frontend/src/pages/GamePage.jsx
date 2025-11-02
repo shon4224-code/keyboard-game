@@ -2,18 +2,26 @@ import { useState, useEffect } from 'react';
 import GameHeader from '@/components/game/GameHeader';
 import GameStart from '@/components/game/GameStart';
 import GamePlay from '@/components/game/GamePlay';
+import GamePlayTrivia from '@/components/game/GamePlayTrivia';
 import GameResults from '@/components/game/GameResults';
+import Leaderboard from '@/components/game/Leaderboard';
+import UsernameModal from '@/components/ui/UsernameModal';
 import { getDailyChallenge } from '@/utils/wordGenerator';
 import { getDailyQuoteChallenge } from '@/utils/quoteGenerator';
+import { getDailyTriviaQuestions, calculateTriviaScore } from '@/utils/triviaHelper';
 import { getStreakData, updateStreak } from '@/utils/streakManager';
 import { calculateWPM, calculateAccuracy } from '@/utils/statsCalculator';
+import { submitScore } from '@/utils/api';
+import { useUser } from '@/contexts/UserContext';
 import { toast } from 'sonner';
 
 export default function GamePage() {
   const [gameState, setGameState] = useState('start'); // start, playing, complete
-  const [gameMode, setGameMode] = useState('words'); // words or quote
+  const [gameMode, setGameMode] = useState('words'); // words, quote, or trivia
   const [dailyWords, setDailyWords] = useState([]);
   const [dailyQuote, setDailyQuote] = useState('');
+  const [triviaQuestions, setTriviaQuestions] = useState([]);
+  const [triviaResults, setTriviaResults] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
@@ -21,6 +29,11 @@ export default function GamePage() {
   const [difficulty, setDifficulty] = useState('normal'); // easy, normal, hard, insane
   const [streakData, setStreakData] = useState(getStreakData());
   const [mistakes, setMistakes] = useState(0);
+  const [keystrokeData, setKeystrokeData] = useState([]); // For anti-cheat
+  const [lastKeystrokeTime, setLastKeystrokeTime] = useState(null);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [showUsernameModal, setShowUsernameModal] = useState(false);
+  const { user, loading: userLoading } = useUser();
   const [stats, setStats] = useState({
     todayTime: null,
     bestTime: null,
@@ -30,6 +43,14 @@ export default function GamePage() {
     accuracy: 100
   });
 
+  // Check if user needs to register
+  useEffect(() => {
+    if (!userLoading && !user) {
+      // Show username modal after a short delay
+      setTimeout(() => setShowUsernameModal(true), 500);
+    }
+  }, [user, userLoading]);
+
   // Load daily content and stats on mount
   useEffect(() => {
     loadDailyContent();
@@ -37,13 +58,16 @@ export default function GamePage() {
     setStreakData(getStreakData());
   }, [difficulty, gameMode]);
   
-  const loadDailyContent = () => {
+  const loadDailyContent = async () => {
     if (gameMode === 'words') {
       const challenge = getDailyChallenge(difficulty);
       setDailyWords(challenge.words);
-    } else {
+    } else if (gameMode === 'quote') {
       const challenge = getDailyQuoteChallenge();
       setDailyQuote(challenge.quote);
+    } else if (gameMode === 'trivia') {
+      const questions = await getDailyTriviaQuestions();
+      setTriviaQuestions(questions);
     }
   };
 
