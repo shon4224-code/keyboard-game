@@ -1,10 +1,13 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Trophy, Clock, TrendingUp, Share2, RotateCcw } from 'lucide-react';
+import { Trophy, Clock, TrendingUp, Share2, RotateCcw, Copy, Twitter } from 'lucide-react';
 import { toast } from 'sonner';
+import { generateShareText, generateTwitterShare, copyToClipboard } from '@/utils/shareGenerator';
+import { getStreakMilestone } from '@/utils/streakManager';
+import { useState } from 'react';
 
-export default function GameResults({ completionTime, stats, onPlayAgain }) {
+export default function GameResults({ completionTime, stats, streakData, difficulty, onPlayAgain }) {
   const formatTime = (ms) => {
     const totalSeconds = Math.floor(ms / 1000);
     const minutes = Math.floor(totalSeconds / 60);
