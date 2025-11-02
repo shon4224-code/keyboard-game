@@ -91,7 +91,7 @@ export default function GameResults({ completionTime, stats, streakData, difficu
   return (
     <div className="w-full max-w-2xl mx-auto animate-bounce-in">
       <Card className="p-8 sm:p-12 text-center space-y-8">
-        {/* Success Icon */}
+        {/* Success Icon with Milestone */}
         <div className="flex justify-center">
           <div className="relative">
             <div className="w-24 h-24 rounded-full bg-success/10 flex items-center justify-center animate-pulse-glow">
@@ -104,6 +104,14 @@ export default function GameResults({ completionTime, stats, streakData, difficu
             )}
           </div>
         </div>
+
+        {/* Streak Milestone Celebration */}
+        {milestone && (
+          <div className="bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-lg p-4 border-2 border-orange-500/50">
+            <p className="text-2xl font-bold">{milestone.emoji} {milestone.message}</p>
+            <p className="text-sm text-muted-foreground mt-1">{streakData.currentStreak} day streak achieved!</p>
+          </div>
+        )}
 
         {/* Title */}
         <div className="space-y-2">
@@ -118,7 +126,12 @@ export default function GameResults({ completionTime, stats, streakData, difficu
         {/* Main Time Display */}
         <div className="py-6">
           <div className="inline-block">
-            <p className="text-sm text-muted-foreground mb-2">Your Time</p>
+            <div className="flex items-center gap-2 justify-center mb-2">
+              <p className="text-sm text-muted-foreground">Your Time</p>
+              {difficulty === 'hard' && (
+                <Badge variant="destructive" className="text-xs">Hard Mode</Badge>
+              )}
+            </div>
             <div className="text-6xl sm:text-7xl font-bold font-['Space_Grotesk'] tabular-nums text-primary">
               {formatTime(completionTime)}
             </div>
@@ -136,9 +149,9 @@ export default function GameResults({ completionTime, stats, streakData, difficu
           </Card>
 
           <Card className="p-4 space-y-2">
-            <TrendingUp className="w-6 h-6 text-secondary mx-auto" />
+            <div className="text-3xl mx-auto">🔥</div>
             <p className="text-2xl font-bold font-['Space_Grotesk']">
-              {stats.streak}
+              {streakData.currentStreak}
             </p>
             <p className="text-xs text-muted-foreground">Day Streak</p>
           </Card>
@@ -152,26 +165,57 @@ export default function GameResults({ completionTime, stats, streakData, difficu
           </Card>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 pt-4">
-          <Button
-            size="lg"
-            variant="outline"
-            onClick={handleShare}
-            className="flex-1"
-          >
-            <Share2 className="w-5 h-5 mr-2" />
-            Share Results
-          </Button>
-          <Button
-            size="lg"
-            onClick={onPlayAgain}
-            className="flex-1 bg-primary hover:bg-primary/90"
-          >
-            <RotateCcw className="w-5 h-5 mr-2" />
-            New Challenge
-          </Button>
-        </div>
+        {/* Share Options */}
+        {!showShareOptions ? (
+          <div className="flex flex-col sm:flex-row gap-3 pt-4">
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => setShowShareOptions(true)}
+              className="flex-1"
+            >
+              <Share2 className="w-5 h-5 mr-2" />
+              Share Results
+            </Button>
+            <Button
+              size="lg"
+              onClick={onPlayAgain}
+              className="flex-1 bg-primary hover:bg-primary/90"
+            >
+              <RotateCcw className="w-5 h-5 mr-2" />
+              New Challenge
+            </Button>
+          </div>
+        ) : (
+          <div className="space-y-3 pt-4">
+            <p className="text-sm font-semibold">Share your achievement:</p>
+            <div className="grid grid-cols-2 gap-3">
+              <Button
+                onClick={handleCopyShare}
+                variant="outline"
+                className="flex-1"
+              >
+                <Copy className="w-4 h-4 mr-2" />
+                Copy Text
+              </Button>
+              <Button
+                onClick={handleTwitterShare}
+                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white"
+              >
+                <Twitter className="w-4 h-4 mr-2" />
+                Twitter
+              </Button>
+            </div>
+            <Button
+              onClick={() => setShowShareOptions(false)}
+              variant="ghost"
+              size="sm"
+              className="w-full"
+            >
+              Cancel
+            </Button>
+          </div>
+        )}
 
         {/* Next challenge info */}
         <div className="pt-4 border-t">
