@@ -156,7 +156,7 @@ export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuest
               ))}
             </div>
           </div>
-        ) : (
+        ) : gameMode === 'quote' ? (
           <div className="space-y-3 py-3">
             <div className="flex items-center justify-center gap-2 text-muted-foreground">
               <Quote className="w-3 h-3" />
@@ -168,10 +168,32 @@ export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuest
               </p>
             </div>
           </div>
+        ) : (
+          <div className="space-y-3 py-3">
+            <div className="flex items-center justify-center gap-2 text-muted-foreground">
+              <Brain className="w-3 h-3 text-purple-500" />
+              <span className="text-xs font-medium">Today's Trivia Challenge</span>
+            </div>
+            <div className="bg-purple-500/10 rounded-lg p-4 max-w-md mx-auto">
+              <p className="text-sm text-foreground text-center font-medium mb-2">
+                Answer 5 general knowledge questions
+              </p>
+              <p className="text-xs text-muted-foreground text-center">
+                Type full answers • Score = Speed + Accuracy + Streak Bonuses
+              </p>
+              {triviaQuestions.length > 0 && (
+                <div className="mt-3 text-center">
+                  <Badge variant="secondary" className="text-xs">
+                    {triviaQuestions.length} questions loaded
+                  </Badge>
+                </div>
+              )}
+            </div>
+          </div>
         )}
 
-        {/* Difficulty Selection */}
-        <div className="space-y-2 pt-2">
+        {/* Difficulty Selection - Only for words/quote mode */}
+        {gameMode !== 'trivia' && (
           <h3 className="font-semibold text-sm text-center">Choose Difficulty:</h3>
           <div className="grid grid-cols-2 gap-2">
             <button
