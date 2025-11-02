@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Play, Calendar, Hash, Zap, Shield } from 'lucide-react';
+import { Play, Calendar, Hash, Zap, Shield, Flame, Quote } from 'lucide-react';
 
-export default function GameStart({ onStart, dailyWords, difficulty, setDifficulty, streakData }) {
+export default function GameStart({ onStart, dailyWords, dailyQuote, difficulty, setDifficulty, gameMode, setGameMode, streakData }) {
   const [countdown, setCountdown] = useState(null);
 
   useEffect(() => {
@@ -27,6 +27,13 @@ export default function GameStart({ onStart, dailyWords, difficulty, setDifficul
     day: 'numeric'
   });
 
+  const difficultyInfo = {
+    easy: { words: 3, letters: '3-5', scramble: 'No scrambling', color: 'text-green-500', icon: Shield },
+    normal: { words: 5, letters: '4-8', scramble: 'Same keyboard', color: 'text-blue-500', icon: Shield },
+    hard: { words: 5, letters: '4-8', scramble: 'Scrambles each word', color: 'text-orange-500', icon: Zap },
+    insane: { words: 7, letters: '5-9', scramble: 'Scrambles each word', color: 'text-red-500', icon: Flame }
+  };
+
   return (
     <div className="w-full max-w-2xl mx-auto animate-bounce-in">
       <Card className="p-6 sm:p-8 text-center space-y-4 shadow-lg">
@@ -34,7 +41,7 @@ export default function GameStart({ onStart, dailyWords, difficulty, setDifficul
         {streakData.currentStreak > 0 && (
           <div className="flex justify-center">
             <Badge className="px-4 py-2 text-lg font-bold bg-gradient-to-r from-orange-500 to-red-500 text-white">
-              \ud83d\udd25 {streakData.currentStreak} Day Streak!
+              🔥 {streakData.currentStreak} Day Streak!
             </Badge>
           </div>
         )}
@@ -51,49 +58,130 @@ export default function GameStart({ onStart, dailyWords, difficulty, setDifficul
             Today's Challenge
           </h2>
           <p className="text-base text-muted-foreground max-w-md mx-auto">
-            Type all 5 words as fast as you can on a randomized keyboard!
+            Choose your mode and difficulty!
           </p>
         </div>
 
-        {/* Words Preview */}
-        <div className="space-y-3 py-3">
-          <div className="flex items-center justify-center gap-2 text-muted-foreground">
-            <Hash className="w-3 h-3" />
-            <span className="text-xs font-medium">Today's Words</span>
-          </div>
-          <div className="flex flex-col gap-2 max-w-md mx-auto">
-            {dailyWords.map((word, index) => (
-              <div
-                key={index}
-                className="bg-muted/50 rounded-lg p-3 flex items-center justify-between"
-              >
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                    <span className="text-xs font-bold text-primary">{index + 1}</span>
-                  </div>
-                  <p className="text-lg font-bold font-['Space_Grotesk'] text-foreground">
-                    {word.toUpperCase()}
-                  </p>
-                </div>
-                <p className="text-xs text-muted-foreground font-medium">
-                  {word.length} letters
-                </p>
+        {/* Game Mode Selection */}
+        <div className="space-y-2 pt-2">
+          <h3 className="font-semibold text-sm text-center">Choose Mode:</h3>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => setGameMode('words')}
+              className={`
+                p-3 rounded-lg border-2 transition-all
+                ${
+                  gameMode === 'words'
+                    ? 'border-primary bg-primary/10 shadow-md'
+                    : 'border-border hover:border-primary/50'
+                }
+              `}
+            >
+              <div className="flex flex-col items-center gap-1.5">
+                <Hash className="w-5 h-5 text-primary" />
+                <span className="font-semibold text-sm">Words</span>
+                <span className="text-xs text-muted-foreground">
+                  Type {difficultyInfo[difficulty].words} words
+                </span>
               </div>
-            ))}
+            </button>
+            
+            <button
+              onClick={() => setGameMode('quote')}
+              className={`
+                p-3 rounded-lg border-2 transition-all
+                ${
+                  gameMode === 'quote'
+                    ? 'border-accent bg-accent/10 shadow-md'
+                    : 'border-border hover:border-accent/50'
+                }
+              `}
+            >
+              <div className="flex flex-col items-center gap-1.5">
+                <Quote className="w-5 h-5 text-accent" />
+                <span className="font-semibold text-sm">Quote</span>
+                <span className="text-xs text-muted-foreground">
+                  Type a sentence
+                </span>
+              </div>
+            </button>
           </div>
         </div>
+
+        {/* Preview */}
+        {gameMode === 'words' ? (
+          <div className="space-y-3 py-3">
+            <div className="flex items-center justify-center gap-2 text-muted-foreground">
+              <Hash className="w-3 h-3" />
+              <span className="text-xs font-medium">Today's Words</span>
+            </div>
+            <div className="flex flex-col gap-2 max-w-md mx-auto">
+              {dailyWords.map((word, index) => (
+                <div
+                  key={index}
+                  className="bg-muted/50 rounded-lg p-3 flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                      <span className="text-xs font-bold text-primary">{index + 1}</span>
+                    </div>
+                    <p className="text-lg font-bold font-['Space_Grotesk'] text-foreground">
+                      {word.toUpperCase()}
+                    </p>
+                  </div>
+                  <p className="text-xs text-muted-foreground font-medium">
+                    {word.length} letters
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-3 py-3">
+            <div className="flex items-center justify-center gap-2 text-muted-foreground">
+              <Quote className="w-3 h-3" />
+              <span className="text-xs font-medium">Today's Quote</span>
+            </div>
+            <div className="bg-muted/50 rounded-lg p-4 max-w-md mx-auto">
+              <p className="text-base italic text-foreground">
+                "{dailyQuote}"
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Difficulty Selection */}
         <div className="space-y-2 pt-2">
           <h3 className="font-semibold text-sm text-center">Choose Difficulty:</h3>
           <div className="grid grid-cols-2 gap-2">
             <button
+              onClick={() => setDifficulty('easy')}
+              className={`
+                p-3 rounded-lg border-2 transition-all
+                ${
+                  difficulty === 'easy'
+                    ? 'border-green-500 bg-green-500/10 shadow-md'
+                    : 'border-border hover:border-green-500/50'
+                }
+              `}
+            >
+              <div className="flex flex-col items-center gap-1.5">
+                <Shield className="w-5 h-5 text-green-500" />
+                <span className="font-semibold text-sm">Easy</span>
+                <span className="text-xs text-muted-foreground text-center">
+                  3 words, no scramble
+                </span>
+              </div>
+            </button>
+            
+            <button
               onClick={() => setDifficulty('normal')}
               className={`
                 p-3 rounded-lg border-2 transition-all
-                ${difficulty === 'normal' 
-                  ? 'border-primary bg-primary/10 shadow-md' 
-                  : 'border-border hover:border-primary/50'
+                ${
+                  difficulty === 'normal'
+                    ? 'border-primary bg-primary/10 shadow-md'
+                    : 'border-border hover:border-primary/50'
                 }
               `}
             >
@@ -101,18 +189,19 @@ export default function GameStart({ onStart, dailyWords, difficulty, setDifficul
                 <Shield className="w-5 h-5 text-primary" />
                 <span className="font-semibold text-sm">Normal</span>
                 <span className="text-xs text-muted-foreground text-center">
-                  Same keyboard
+                  5 words, same keyboard
                 </span>
               </div>
             </button>
-            
+
             <button
               onClick={() => setDifficulty('hard')}
               className={`
                 p-3 rounded-lg border-2 transition-all
-                ${difficulty === 'hard' 
-                  ? 'border-destructive bg-destructive/10 shadow-md' 
-                  : 'border-border hover:border-destructive/50'
+                ${
+                  difficulty === 'hard'
+                    ? 'border-destructive bg-destructive/10 shadow-md'
+                    : 'border-border hover:border-destructive/50'
                 }
               `}
             >
@@ -120,7 +209,27 @@ export default function GameStart({ onStart, dailyWords, difficulty, setDifficul
                 <Zap className="w-5 h-5 text-destructive" />
                 <span className="font-semibold text-sm text-destructive">Hard</span>
                 <span className="text-xs text-muted-foreground text-center">
-                  Scrambles each word!
+                  5 words, scrambles!
+                </span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setDifficulty('insane')}
+              className={`
+                p-3 rounded-lg border-2 transition-all
+                ${
+                  difficulty === 'insane'
+                    ? 'border-red-500 bg-red-500/10 shadow-md'
+                    : 'border-border hover:border-red-500/50'
+                }
+              `}
+            >
+              <div className="flex flex-col items-center gap-1.5">
+                <Flame className="w-5 h-5 text-red-500" />
+                <span className="font-semibold text-sm text-red-500">Insane</span>
+                <span className="text-xs text-muted-foreground text-center">
+                  7 words, scrambles!
                 </span>
               </div>
             </button>
