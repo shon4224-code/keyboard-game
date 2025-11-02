@@ -1,9 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import RandomKeyboard from '@/components/game/RandomKeyboard';
 import { Timer, CheckCircle2, XCircle, Zap } from 'lucide-react';
 import { checkAnswer } from '@/utils/triviaHelper';
 import { toast } from 'sonner';
@@ -20,6 +19,7 @@ export default function GamePlayTrivia({
   const [streak, setStreak] = useState(0);
   const [maxStreak, setMaxStreak] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
+  const [keyboardKey, setKeyboardKey] = useState(0);
 
   const currentQuestion = questions[currentQuestionIndex];
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
