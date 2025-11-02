@@ -98,8 +98,8 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText, key
             onClick={() => handleClick('BACKSPACE')}
             className={`
               keyboard-key
-              h-12 flex-1 max-w-[140px]
-              sm:h-14 sm:max-w-[160px]
+              h-12 flex-1 max-w-[120px]
+              sm:h-14 sm:max-w-[140px]
               text-sm sm:text-base font-semibold
               rounded-[var(--radius-key)]
               ${
@@ -115,11 +115,30 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText, key
           </Button>
           
           <Button
+            onClick={() => handleClick('SPACE')}
+            className={`
+              keyboard-key
+              h-12 flex-1 max-w-[200px]
+              sm:h-14 sm:max-w-[240px]
+              text-sm sm:text-base font-semibold
+              rounded-[var(--radius-key)]
+              ${
+                pressedKey === 'SPACE'
+                  ? 'scale-95 bg-muted-foreground text-background'
+                  : 'bg-card hover:bg-muted'
+              }
+            `}
+            variant="outline"
+          >
+            SPACE
+          </Button>
+          
+          <Button
             onClick={() => handleClick('ENTER')}
             className={`
               keyboard-key
-              h-12 flex-1 max-w-[140px]
-              sm:h-14 sm:max-w-[160px]
+              h-12 flex-1 max-w-[120px]
+              sm:h-14 sm:max-w-[140px]
               text-sm sm:text-base font-semibold
               rounded-[var(--radius-key)]
               ${
