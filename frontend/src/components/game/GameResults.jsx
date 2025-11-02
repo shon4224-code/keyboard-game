@@ -145,45 +145,72 @@ export default function GameResults({ completionTime, stats, streakData, difficu
           </p>
         </div>
 
-        {/* Main Time Display */}
+        {/* Main Time Display with WPM */}
         <div className="py-6">
           <div className="inline-block">
             <div className="flex items-center gap-2 justify-center mb-2">
               <p className="text-sm text-muted-foreground">Your Time</p>
-              {difficulty === 'hard' && (
-                <Badge variant="destructive" className="text-xs">Hard Mode</Badge>
+              {['hard', 'insane'].includes(difficulty) && (
+                <Badge variant="destructive" className="text-xs">
+                  {difficulty === 'insane' ? 'INSANE' : 'Hard'} Mode
+                </Badge>
               )}
             </div>
             <div className="text-6xl sm:text-7xl font-bold font-['Space_Grotesk'] tabular-nums text-primary">
               {formatTime(completionTime)}
             </div>
+            
+            {/* WPM & Accuracy Display */}
+            <div className="mt-4 flex items-center justify-center gap-4">
+              <div className="text-center">
+                <p className="text-2xl font-bold">{formatWPM(stats.wpm || 0)}</p>
+                <p className={`text-xs ${wpmRating.color} font-medium`}>
+                  {wpmRating.emoji} {wpmRating.label}
+                </p>
+              </div>
+              <div className="text-muted-foreground">•</div>
+              <div className="text-center">
+                <p className="text-2xl font-bold">{formatAccuracy(stats.accuracy || 100)}</p>
+                <p className={`text-xs ${accuracyRating.color} font-medium`}>
+                  {accuracyRating.label}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-3 gap-4">
-          <Card className="p-4 space-y-2">
-            <Clock className="w-6 h-6 text-primary mx-auto" />
-            <p className="text-2xl font-bold font-['Space_Grotesk']">
+        <div className="grid grid-cols-4 gap-3">
+          <Card className="p-3 space-y-1">
+            <Clock className="w-5 h-5 text-primary mx-auto" />
+            <p className="text-xl font-bold font-['Space_Grotesk']">
               {formatTime(stats.bestTime)}
             </p>
-            <p className="text-xs text-muted-foreground">Best Time</p>
+            <p className="text-xs text-muted-foreground">Best</p>
           </Card>
 
-          <Card className="p-4 space-y-2">
-            <div className="text-3xl mx-auto">🔥</div>
-            <p className="text-2xl font-bold font-['Space_Grotesk']">
+          <Card className="p-3 space-y-1">
+            <div className="text-2xl mx-auto">🔥</div>
+            <p className="text-xl font-bold font-['Space_Grotesk']">
               {streakData.currentStreak}
             </p>
-            <p className="text-xs text-muted-foreground">Day Streak</p>
+            <p className="text-xs text-muted-foreground">Streak</p>
           </Card>
 
-          <Card className="p-4 space-y-2">
-            <Trophy className="w-6 h-6 text-accent mx-auto" />
-            <p className="text-2xl font-bold font-['Space_Grotesk']">
-              {stats.gamesPlayed}
+          <Card className="p-3 space-y-1">
+            <Zap className="w-5 h-5 text-accent mx-auto" />
+            <p className="text-xl font-bold font-['Space_Grotesk']">
+              {stats.wpm || 0}
             </p>
-            <p className="text-xs text-muted-foreground">Games Played</p>
+            <p className="text-xs text-muted-foreground">WPM</p>
+          </Card>
+
+          <Card className="p-3 space-y-1">
+            <Target className="w-5 h-5 text-success mx-auto" />
+            <p className="text-xl font-bold font-['Space_Grotesk']">
+              {stats.accuracy || 100}%
+            </p>
+            <p className="text-xs text-muted-foreground">Accuracy</p>
           </Card>
         </div>
 
