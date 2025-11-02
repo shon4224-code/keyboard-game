@@ -124,8 +124,11 @@ export default function GamePage() {
           <GameStart 
             onStart={handleStartGame} 
             dailyWords={dailyWords}
+            dailyQuote={dailyQuote}
             difficulty={difficulty}
             setDifficulty={setDifficulty}
+            gameMode={gameMode}
+            setGameMode={setGameMode}
             streakData={streakData}
           />
         )}
@@ -133,6 +136,8 @@ export default function GamePage() {
         {gameState === 'playing' && (
           <GamePlay
             dailyWords={dailyWords}
+            dailyQuote={dailyQuote}
+            gameMode={gameMode}
             startTime={startTime}
             currentWordIndex={currentWordIndex}
             setCurrentWordIndex={setCurrentWordIndex}
@@ -140,6 +145,8 @@ export default function GamePage() {
             setTypedText={setTypedText}
             onComplete={handleGameComplete}
             difficulty={difficulty}
+            mistakes={mistakes}
+            setMistakes={setMistakes}
           />
         )}
         
@@ -149,6 +156,7 @@ export default function GamePage() {
             stats={stats}
             streakData={streakData}
             difficulty={difficulty}
+            gameMode={gameMode}
             onPlayAgain={handlePlayAgain}
           />
         )}
