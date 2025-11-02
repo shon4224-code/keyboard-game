@@ -241,11 +241,17 @@ export default function GamePage() {
     setCurrentWordIndex(0);
     setTypedText('');
     setMistakes(0);
+    setKeystrokeData([]);
+    setLastKeystrokeTime(null);
+    setTriviaResults(null);
   };
 
   return (
     <div className="min-h-screen flex flex-col">
-      <GameHeader stats={stats} />
+      <GameHeader 
+        stats={stats} 
+        onShowLeaderboard={() => setShowLeaderboard(true)}
+      />
       
       <main className="flex-1 flex items-center justify-center px-4 py-8">
         {gameState === 'start' && (
@@ -253,6 +259,7 @@ export default function GamePage() {
             onStart={handleStartGame} 
             dailyWords={dailyWords}
             dailyQuote={dailyQuote}
+            triviaQuestions={triviaQuestions}
             difficulty={difficulty}
             setDifficulty={setDifficulty}
             gameMode={gameMode}
@@ -261,7 +268,7 @@ export default function GamePage() {
           />
         )}
         
-        {gameState === 'playing' && (
+        {gameState === 'playing' && gameMode !== 'trivia' && (
           <GamePlay
             dailyWords={dailyWords}
             dailyQuote={dailyQuote}
@@ -275,6 +282,15 @@ export default function GamePage() {
             difficulty={difficulty}
             mistakes={mistakes}
             setMistakes={setMistakes}
+            onKeystroke={trackKeystroke}
+          />
+        )}
+        
+        {gameState === 'playing' && gameMode === 'trivia' && (
+          <GamePlayTrivia
+            questions={triviaQuestions}
+            startTime={startTime}
+            onComplete={handleTriviaComplete}
           />
         )}
         
@@ -285,10 +301,23 @@ export default function GamePage() {
             streakData={streakData}
             difficulty={difficulty}
             gameMode={gameMode}
+            triviaResults={triviaResults}
             onPlayAgain={handlePlayAgain}
           />
         )}
       </main>
+      
+      {/* Modals */}
+      {showLeaderboard && (
+        <Leaderboard onClose={() => setShowLeaderboard(false)} />
+      )}
+      
+      {showUsernameModal && (
+        <UsernameModal 
+          open={showUsernameModal} 
+          onClose={() => setShowUsernameModal(false)} 
+        />
+      )}
     </div>
   );
 }
