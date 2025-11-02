@@ -96,7 +96,8 @@ export function getDailyChallenge(difficulty = 'normal') {
   }
   
   // Generate new challenge
-  const challenge = {\n    day,
+  const challenge = {
+    day,
     date: new Date().toISOString(),
     words: generateDailyWords(difficulty),
     difficulty
