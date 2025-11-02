@@ -150,27 +150,17 @@ export default function GamePlayTrivia({
               {currentQuestion.question}?
             </h3>
             <p className="text-sm text-muted-foreground">
-              Type your answer below
+              Type your answer using the keyboard below
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Input
-              value={userAnswer}
-              onChange={(e) => setUserAnswer(e.target.value)}
-              placeholder="Type your answer..."
-              className="text-lg p-6"
-              autoFocus
-            />
-            <Button 
-              type="submit" 
-              size="lg" 
-              className="w-full"
-              disabled={!userAnswer.trim()}
-            >
-              Submit Answer
-            </Button>
-          </form>
+          {/* Answer Display */}
+          <div className="bg-muted/30 rounded-lg p-4 min-h-[60px] flex items-center">
+            <p className="text-lg font-mono break-words w-full">
+              {userAnswer || <span className="text-muted-foreground italic">Start typing...</span>}
+              <span className="animate-pulse">|</span>
+            </p>
+          </div>
 
           {/* Stats */}
           <div className="flex items-center justify-center gap-6 pt-4 border-t text-sm text-muted-foreground">
@@ -189,6 +179,14 @@ export default function GamePlayTrivia({
           </div>
         </div>
       </Card>
+
+      {/* Randomized Keyboard */}
+      <RandomKeyboard 
+        onKeyPress={handleKeyPress}
+        currentWord={userAnswer}
+        typedText={userAnswer}
+        keyboardKey={keyboardKey}
+      />
     </div>
   );
 }
