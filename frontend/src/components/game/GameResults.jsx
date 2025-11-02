@@ -8,6 +8,8 @@ import { getStreakMilestone } from '@/utils/streakManager';
 import { useState } from 'react';
 
 export default function GameResults({ completionTime, stats, streakData, difficulty, onPlayAgain }) {
+  const [showShareOptions, setShowShareOptions] = useState(false);
+  
   const formatTime = (ms) => {
     const totalSeconds = Math.floor(ms / 1000);
     const minutes = Math.floor(totalSeconds / 60);
@@ -16,6 +18,32 @@ export default function GameResults({ completionTime, stats, streakData, difficu
   };
 
   const isNewBest = stats.bestTime === completionTime;
+  const milestone = getStreakMilestone(streakData.currentStreak);
+  
+  const handleCopyShare = async () => {
+    const shareText = generateShareText({
+      completionTime,
+      difficulty,
+      streak: streakData.currentStreak,
+      wordsCompleted: 5
+    });
+    
+    const success = await copyToClipboard(shareText);
+    if (success) {
+      toast.success('Results copied to clipboard!');
+    } else {
+      toast.error('Could not copy to clipboard');
+    }
+  };
+  
+  const handleTwitterShare = () => {
+    const twitterUrl = generateTwitterShare({
+      completionTime,
+      difficulty,
+      streak: streakData.currentStreak
+    });
+    window.open(twitterUrl, '_blank');
+  };
 
   const handleShare = async () => {
     const shareText = `I completed today's keyboard challenge in ${formatTime(completionTime)}! 🎉\n\nCan you beat my time?`;
