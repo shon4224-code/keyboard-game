@@ -277,6 +277,7 @@ export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuest
             </button>
           </div>
         </div>
+        )}
 
         {/* Start Button */}
         <div className="pt-3">
