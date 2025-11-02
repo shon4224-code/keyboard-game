@@ -19,6 +19,8 @@ export default function GameResults({ completionTime, stats, streakData, difficu
 
   const isNewBest = stats.bestTime === completionTime;
   const milestone = getStreakMilestone(streakData.currentStreak);
+  const wpmRating = getWPMRating(stats.wpm || 0);
+  const accuracyRating = getAccuracyRating(stats.accuracy || 100);
   
   const handleCopyShare = async () => {
     const shareText = generateShareText({
