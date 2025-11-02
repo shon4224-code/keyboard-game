@@ -61,7 +61,21 @@ export default function GamePage() {
     const completionTime = Date.now() - startTime;
     setEndTime(completionTime);
     setGameState('complete');
-    saveStats(completionTime);
+    
+    // Update streak
+    const newStreakData = updateStreak();
+    setStreakData(newStreakData);
+    
+    // Save stats with streak
+    const newStats = {
+      todayTime: completionTime,
+      bestTime: stats.bestTime ? Math.min(stats.bestTime, completionTime) : completionTime,
+      gamesPlayed: stats.gamesPlayed + 1,
+      streak: newStreakData.currentStreak
+    };
+    localStorage.setItem('keyboard_stats', JSON.stringify(newStats));
+    setStats(newStats);
+    
     toast.success('Congratulations! Challenge completed!');
   };
 
