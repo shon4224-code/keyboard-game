@@ -126,9 +126,9 @@ export default function GamePlay({
             </span>
           </div>
           <div className="flex items-center gap-2">
-            {difficulty === 'hard' && (
+            {['hard', 'insane'].includes(difficulty) && (
               <Badge variant="destructive" className="text-xs font-medium">
-                Hard Mode
+                {difficulty === 'insane' ? 'INSANE' : 'Hard'} Mode
               </Badge>
             )}
             <Badge variant="outline" className="text-xs sm:text-sm font-medium px-2 sm:px-3 py-1">
