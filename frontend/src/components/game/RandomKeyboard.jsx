@@ -28,7 +28,10 @@ export default function RandomKeyboard({ onKeyPress, currentWord, typedText, key
       if (key === 'BACKSPACE') {
         setPressedKey('BACKSPACE');
         onKeyPress('BACKSPACE');
-      } else if (key === 'ENTER' || key === ' ') {
+      } else if (key === ' ') {
+        setPressedKey('SPACE');
+        onKeyPress('SPACE');
+      } else if (key === 'ENTER') {
         setPressedKey('ENTER');
         onKeyPress('ENTER');
       } else if (/^[A-Z]$/.test(key)) {
