@@ -78,9 +78,9 @@ export default function GamePlayQuote({
   };
 
   return (
-    <div className=\"w-full max-w-4xl mx-auto space-y-3 sm:space-y-4 animate-flip-in\">
+    <div className="w-full max-w-4xl mx-auto space-y-3 sm:space-y-4 animate-flip-in">
       {/* Timer and Progress */}
-      <Card className=\"p-4 sm:p-5\">
+      <Card className="p-4 sm:p-5">
         <div className=\"flex items-center justify-between mb-3\">
           <div className=\"flex items-center gap-2 sm:gap-3\">
             <Timer className=\"w-4 h-4 sm:w-5 sm:h-5 text-primary\" />
