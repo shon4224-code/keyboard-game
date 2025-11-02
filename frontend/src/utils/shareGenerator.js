@@ -1,5 +1,13 @@
 // Generate shareable text for social media
 
+const getAppUrl = () => {
+  // Use current domain or fallback to keyboardjumble.com
+  if (typeof window !== 'undefined') {
+    return window.location.origin;
+  }
+  return 'https://keyboardjumble.com';
+};
+
 export const generateShareText = (stats) => {
   const { completionTime, difficulty, streak, wordsCompleted = 5 } = stats;
   
@@ -16,8 +24,12 @@ export const generateShareText = (stats) => {
   // Streak text
   const streakText = streak > 0 ? `\n🔥 ${streak} Day Streak` : '';
   
+  // Get app URL dynamically
+  const appUrl = getAppUrl();
+  const domain = appUrl.replace('https://', '').replace('http://', '');
+  
   // Build share message
-  const shareMessage = `⌨️ keyboard - Daily Challenge\n\n🏆 Time: ${timeStr}\n${difficultyEmoji} ${difficultyText}\n📝 ${wordsCompleted}/5 words${streakText}\n\nCan you beat my time?\n\n🎮 Play at keyboardjumble.com`;
+  const shareMessage = `⌨️ keyboard - Daily Challenge\n\n🏆 Time: ${timeStr}\n${difficultyEmoji} ${difficultyText}\n📝 ${wordsCompleted}/5 words${streakText}\n\nCan you beat my time?\n\n🎮 Play at ${domain}`;
   
   return shareMessage;
 };
@@ -34,7 +46,9 @@ export const generateTwitterShare = (stats) => {
   const streakText = streak > 0 ? ` | 🔥 ${streak} day streak` : '';
   
   const tweetText = `⌨️ I completed today's keyboard challenge in ${timeStr}! ${difficultyEmoji}${streakText}\n\nCan you beat my time? 🎮`;
-  const url = 'https://keyboardjumble.com';
+  
+  // Use dynamic URL
+  const url = getAppUrl();
   const hashtags = 'keyboardjumble,wordgame';
   
   return `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(url)}&hashtags=${hashtags}`;
