@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Play, Calendar, Hash, Zap, Shield } from 'lucide-react';
 
-export default function GameStart({ onStart, dailyWords, difficulty, setDifficulty }) {
+export default function GameStart({ onStart, dailyWords, difficulty, setDifficulty, streakData }) {
   const [countdown, setCountdown] = useState(null);
 
   useEffect(() => {
