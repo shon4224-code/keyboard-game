@@ -17,6 +17,26 @@ export default function GameResults({ completionTime, stats, streakData, difficu
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
+  const formatWPM = (wpm) => Math.round(wpm);
+  
+  const formatAccuracy = (accuracy) => Math.round(accuracy);
+  
+  const getWPMRating = (wpm) => {
+    if (wpm >= 80) return { label: 'Lightning Fast', color: 'text-purple-500', emoji: '⚡' };
+    if (wpm >= 60) return { label: 'Very Fast', color: 'text-blue-500', emoji: '🚀' };
+    if (wpm >= 40) return { label: 'Fast', color: 'text-green-500', emoji: '💨' };
+    if (wpm >= 25) return { label: 'Good', color: 'text-yellow-500', emoji: '👍' };
+    return { label: 'Keep Practicing', color: 'text-orange-500', emoji: '📚' };
+  };
+  
+  const getAccuracyRating = (accuracy) => {
+    if (accuracy >= 98) return { label: 'Perfect', color: 'text-purple-500' };
+    if (accuracy >= 95) return { label: 'Excellent', color: 'text-green-500' };
+    if (accuracy >= 90) return { label: 'Great', color: 'text-blue-500' };
+    if (accuracy >= 85) return { label: 'Good', color: 'text-yellow-500' };
+    return { label: 'Needs Work', color: 'text-orange-500' };
+  };
+
   const isNewBest = stats.bestTime === completionTime;
   const milestone = getStreakMilestone(streakData.currentStreak);
   const wpmRating = getWPMRating(stats.wpm || 0);
