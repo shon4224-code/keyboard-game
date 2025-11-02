@@ -65,7 +65,7 @@ export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuest
         {/* Game Mode Selection */}
         <div className="space-y-2 pt-2">
           <h3 className="font-semibold text-sm text-center">Choose Mode:</h3>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             <button
               onClick={() => setGameMode('words')}
               className={`
@@ -102,6 +102,26 @@ export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuest
                 <span className="font-semibold text-sm">Quote</span>
                 <span className="text-xs text-muted-foreground">
                   Type a sentence
+                </span>
+              </div>
+            </button>
+            
+            <button
+              onClick={() => setGameMode('trivia')}
+              className={`
+                p-3 rounded-lg border-2 transition-all
+                ${
+                  gameMode === 'trivia'
+                    ? 'border-purple-500 bg-purple-500/10 shadow-md'
+                    : 'border-border hover:border-purple-500/50'
+                }
+              `}
+            >
+              <div className="flex flex-col items-center gap-1.5">
+                <Brain className="w-5 h-5 text-purple-500" />
+                <span className="font-semibold text-sm">Trivia</span>
+                <span className="text-xs text-muted-foreground">
+                  5 questions
                 </span>
               </div>
             </button>
