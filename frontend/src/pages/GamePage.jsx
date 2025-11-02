@@ -78,15 +78,27 @@ export default function GamePage() {
     }
   };
 
-  const saveStats = (completionTime) => {
+  const saveStats = (completionTime, wpm, accuracy) => {
     const newStats = {
       todayTime: completionTime,
       bestTime: stats.bestTime ? Math.min(stats.bestTime, completionTime) : completionTime,
       gamesPlayed: stats.gamesPlayed + 1,
-      streak: stats.streak + 1
+      streak: stats.streak + 1,
+      wpm,
+      accuracy
     };
     localStorage.setItem('keyboard_stats', JSON.stringify(newStats));
     setStats(newStats);
+  };
+
+  // Track keystroke timing for anti-cheat
+  const trackKeystroke = () => {
+    const now = Date.now();
+    if (lastKeystrokeTime) {
+      const timeDiff = now - lastKeystrokeTime;
+      setKeystrokeData(prev => [...prev, timeDiff]);
+    }
+    setLastKeystrokeTime(now);
   };
 
   const handleStartGame = () => {
@@ -95,12 +107,16 @@ export default function GamePage() {
     setCurrentWordIndex(0);
     setTypedText('');
     setMistakes(0);
-    const modeText = gameMode === 'quote' ? 'Quote' : 'Words';
+    setKeystrokeData([]);
+    setLastKeystrokeTime(null);
+    setTriviaResults(null);
+    
+    const modeText = gameMode === 'trivia' ? 'Trivia' : gameMode === 'quote' ? 'Quote' : 'Words';
     const diffText = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
     toast.success(`${modeText} Mode (${diffText}) started! Good luck!`);
   };
 
-  const handleGameComplete = () => {
+  const handleGameComplete = async () => {
     const completionTime = Date.now() - startTime;
     setEndTime(completionTime);
     setGameState('complete');
@@ -126,7 +142,95 @@ export default function GamePage() {
     localStorage.setItem('keyboard_stats', JSON.stringify(newStats));
     setStats(newStats);
     
+    // Submit to leaderboard if user is logged in
+    if (user) {
+      await submitScoreToLeaderboard({
+        wpm,
+        accuracy,
+        time_seconds: completionTime / 1000,
+        score: 0,
+        mistakes,
+        streak: newStreakData.currentStreak
+      });
+    }
+    
     toast.success('Congratulations! Challenge completed!');
+  };
+
+  const handleTriviaComplete = async (results) => {
+    const completionTime = Date.now() - startTime;
+    setEndTime(completionTime);
+    setGameState('complete');
+    setTriviaResults(results);
+    
+    // Calculate trivia score
+    const score = calculateTriviaScore(
+      results.timeSeconds,
+      results.correctCount,
+      results.totalQuestions,
+      results.maxStreak
+    );
+    
+    // Calculate WPM based on total characters typed
+    const totalChars = results.answers.reduce((sum, a) => sum + a.userAnswer.length, 0);
+    const wpm = calculateWPM({ length: totalChars }, completionTime);
+    const accuracy = (results.correctCount / results.totalQuestions) * 100;
+    
+    // Update streak
+    const newStreakData = updateStreak();
+    setStreakData(newStreakData);
+    
+    // Save stats
+    const newStats = {
+      todayTime: completionTime,
+      bestTime: stats.bestTime ? Math.min(stats.bestTime, completionTime) : completionTime,
+      gamesPlayed: stats.gamesPlayed + 1,
+      streak: newStreakData.currentStreak,
+      wpm,
+      accuracy
+    };
+    localStorage.setItem('keyboard_stats', JSON.stringify(newStats));
+    setStats(newStats);
+    
+    // Submit to leaderboard if user is logged in
+    if (user) {
+      await submitScoreToLeaderboard({
+        wpm,
+        accuracy,
+        time_seconds: results.timeSeconds,
+        score,
+        mistakes: results.totalQuestions - results.correctCount,
+        streak: newStreakData.currentStreak
+      });
+    }
+    
+    toast.success(`Trivia Complete! Score: ${score}`);
+  };
+
+  const submitScoreToLeaderboard = async (scoreData) => {
+    try {
+      const result = await submitScore({
+        user_id: user.id,
+        username: user.username,
+        mode: gameMode,
+        difficulty: difficulty,
+        ...scoreData,
+        keystroke_data: keystrokeData.slice(0, 50), // Send first 50 keystrokes
+        total_keystrokes: keystrokeData.length
+      });
+      
+      if (result.success) {
+        toast.success('Score submitted to leaderboard!');
+      } else {
+        if (result.error.includes('rejected')) {
+          toast.error('Score not submitted: Suspicious activity detected');
+        } else {
+          toast.error('Failed to submit score');
+        }
+      }
+    } catch (error) {
+      console.error('Error submitting score:', error);
+    }
   };
 
   const handlePlayAgain = () => {
