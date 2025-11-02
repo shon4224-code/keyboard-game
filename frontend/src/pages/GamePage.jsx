@@ -101,6 +101,7 @@ export default function GamePage() {
             dailyWords={dailyWords}
             difficulty={difficulty}
             setDifficulty={setDifficulty}
+            streakData={streakData}
           />
         )}
         
@@ -121,6 +122,8 @@ export default function GamePage() {
           <GameResults
             completionTime={endTime}
             stats={stats}
+            streakData={streakData}
+            difficulty={difficulty}
             onPlayAgain={handlePlayAgain}
           />
         )}
