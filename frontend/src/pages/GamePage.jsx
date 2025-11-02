@@ -3,24 +3,31 @@ import GameHeader from '@/components/game/GameHeader';
 import GameStart from '@/components/game/GameStart';
 import GamePlay from '@/components/game/GamePlay';
 import GameResults from '@/components/game/GameResults';
-import { generateDailyWords, getDailyChallenge } from '@/utils/wordGenerator';
-import { getStreakData, updateStreak, hasPlayedToday } from '@/utils/streakManager';
+import { getDailyChallenge } from '@/utils/wordGenerator';
+import { getDailyQuoteChallenge } from '@/utils/quoteGenerator';
+import { getStreakData, updateStreak } from '@/utils/streakManager';
+import { calculateWPM, calculateAccuracy } from '@/utils/statsCalculator';
 import { toast } from 'sonner';
 
 export default function GamePage() {
   const [gameState, setGameState] = useState('start'); // start, playing, complete
+  const [gameMode, setGameMode] = useState('words'); // words or quote
   const [dailyWords, setDailyWords] = useState([]);
+  const [dailyQuote, setDailyQuote] = useState('');
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [typedText, setTypedText] = useState('');
-  const [difficulty, setDifficulty] = useState('normal'); // normal or hard
+  const [difficulty, setDifficulty] = useState('normal'); // easy, normal, hard, insane
   const [streakData, setStreakData] = useState(getStreakData());
+  const [mistakes, setMistakes] = useState(0);
   const [stats, setStats] = useState({
     todayTime: null,
     bestTime: null,
     gamesPlayed: 0,
-    streak: 0
+    streak: 0,
+    wpm: 0,
+    accuracy: 100
   });
 
   // Load daily words and stats on mount
