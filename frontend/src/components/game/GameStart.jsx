@@ -30,6 +30,15 @@ export default function GameStart({ onStart, dailyWords, difficulty, setDifficul
   return (
     <div className="w-full max-w-2xl mx-auto animate-bounce-in">
       <Card className="p-6 sm:p-8 text-center space-y-4 shadow-lg">
+        {/* Streak Display */}
+        {streakData.currentStreak > 0 && (
+          <div className="flex justify-center">
+            <Badge className="px-4 py-2 text-lg font-bold bg-gradient-to-r from-orange-500 to-red-500 text-white">
+              \ud83d\udd25 {streakData.currentStreak} Day Streak!
+            </Badge>
+          </div>
+        )}
+        
         {/* Title Section */}
         <div className="space-y-2">
           <div className="inline-block">
