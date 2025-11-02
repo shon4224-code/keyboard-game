@@ -8,13 +8,17 @@ import { toast } from 'sonner';
 
 export default function GamePlay({
   dailyWords,
+  dailyQuote,
+  gameMode,
   startTime,
   currentWordIndex,
   setCurrentWordIndex,
   typedText,
   setTypedText,
   onComplete,
-  difficulty
+  difficulty,
+  mistakes,
+  setMistakes
 }) {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [shake, setShake] = useState(false);
