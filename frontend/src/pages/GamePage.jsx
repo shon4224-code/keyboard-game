@@ -30,13 +30,22 @@ export default function GamePage() {
     accuracy: 100
   });
 
-  // Load daily words and stats on mount
+  // Load daily content and stats on mount
   useEffect(() => {
-    const challenge = getDailyChallenge();
-    setDailyWords(challenge.words);
+    loadDailyContent();
     loadStats();
     setStreakData(getStreakData());
-  }, []);
+  }, [difficulty, gameMode]);
+  
+  const loadDailyContent = () => {
+    if (gameMode === 'words') {
+      const challenge = getDailyChallenge(difficulty);
+      setDailyWords(challenge.words);
+    } else {
+      const challenge = getDailyQuoteChallenge();
+      setDailyQuote(challenge.quote);
+    }
+  };
 
   const loadStats = () => {
     const savedStats = localStorage.getItem('keyboard_stats');
