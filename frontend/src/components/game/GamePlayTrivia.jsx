@@ -40,9 +40,7 @@ export default function GamePlayTrivia({
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
-    
+  const handleSubmit = useCallback(() => {
     if (!userAnswer.trim()) {
       toast.error('Please enter an answer');
       return;
@@ -86,6 +84,7 @@ export default function GamePlayTrivia({
       setTimeout(() => {
         setCurrentQuestionIndex(prev => prev + 1);
         setUserAnswer('');
+        setKeyboardKey(prev => prev + 1); // Randomize keyboard for next question
       }, 1000);
     } else {
       setTimeout(() => {
@@ -100,16 +99,19 @@ export default function GamePlayTrivia({
     }
   }, [userAnswer, currentQuestion, currentQuestionIndex, questions, answers, correctCount, streak, maxStreak, elapsedTime, onComplete]);
 
-  // Handle Enter key
-  useEffect(() => {
-    const handleKeyPress = (e) => {
-      if (e.key === 'Enter' && userAnswer.trim()) {
-        handleSubmit(e);
-      }
-    };
-    window.addEventListener('keypress', handleKeyPress);
-    return () => window.removeEventListener('keypress', handleKeyPress);
-  }, [userAnswer, handleSubmit]);
+  // Handle keyboard key press
+  const handleKeyPress = useCallback((key) => {
+    if (key === 'BACKSPACE') {
+      setUserAnswer(prev => prev.slice(0, -1));
+    } else if (key === 'SPACE') {
+      setUserAnswer(prev => prev + ' ');
+    } else if (key === 'ENTER') {
+      handleSubmit();
+    } else {
+      // Regular letter key
+      setUserAnswer(prev => prev + key);
+    }
+  }, [handleSubmit]);
 
   return (
     <div className="w-full max-w-3xl mx-auto space-y-4 animate-flip-in">
