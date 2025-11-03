@@ -44,11 +44,17 @@ export default function GamePage() {
     accuracy: 100
   });
 
-  // Check if user needs to register
+  // Check if user needs to register (only once on mount)
   useEffect(() => {
     if (!userLoading && !user) {
-      // Show username modal after a short delay
-      setTimeout(() => setShowUsernameModal(true), 500);
+      // Double check localStorage before showing modal
+      const storedUserId = localStorage.getItem('keyboard_user_id');
+      const storedUsername = localStorage.getItem('keyboard_username');
+      
+      if (!storedUserId || !storedUsername) {
+        // Show username modal after a short delay
+        setTimeout(() => setShowUsernameModal(true), 500);
+      }
     }
   }, [user, userLoading]);
 
