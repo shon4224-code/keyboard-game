@@ -237,8 +237,8 @@ export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuest
           </div>
         )}
 
-        {/* Difficulty Selection - Only for words/quote mode */}
-        {gameMode !== 'trivia' && gameMode !== 'sprint' && (
+        {/* Difficulty Selection - Only for words mode */}
+        {gameMode === 'words' && (
           <div className="space-y-2 pt-2">
             <h3 className="font-semibold text-sm text-center">Choose Difficulty:</h3>
             <div className="grid grid-cols-2 gap-2">
