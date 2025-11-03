@@ -1,14 +1,55 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Trophy, Clock, TrendingUp, Share2, RotateCcw, Copy, Twitter, Zap, Target } from 'lucide-react';
+import { Trophy, Clock, TrendingUp, Share2, RotateCcw, Download, Users, Award } from 'lucide-react';
 import { toast } from 'sonner';
-import { generateShareText, generateTwitterShare, copyToClipboard } from '@/utils/shareGenerator';
 import { getStreakMilestone } from '@/utils/streakManager';
-import { useState } from 'react';
+import { generateResultCard, shareResultCard, downloadResultCard } from '@/utils/resultCardGenerator';
+import { createChallenge, checkAchievements, getAllAchievements } from '@/utils/api';
+import { useUser } from '@/contexts/UserContext';
+import { useState, useEffect } from 'react';
 
-export default function GameResults({ completionTime, stats, streakData, difficulty, onPlayAgain }) {
+export default function GameResults({ completionTime, stats, streakData, difficulty, gameMode, triviaResults, onPlayAgain }) {
   const [showShareOptions, setShowShareOptions] = useState(false);
+  const [newAchievements, setNewAchievements] = useState([]);
+  const [allAchievements, setAllAchievements] = useState([]);
+  const [generatingCard, setGeneratingCard] = useState(false);
+  const { user } = useUser();
+  
+  // Check for new achievements on mount
+  useEffect(() => {
+    if (user) {
+      checkForAchievements();
+      loadAchievements();
+    }
+  }, [user]);
+  
+  const checkForAchievements = async () => {
+    const gameData = {
+      wpm: stats.wpm || 0,
+      accuracy: stats.accuracy || 0,
+      mode: gameMode,
+      score: triviaResults?.correctCount || 0,
+      streak: stats.streak || 0
+    };
+    
+    const result = await checkAchievements(user.id, gameData);
+    if (result.success && result.data.new_achievements.length > 0) {
+      setNewAchievements(result.data.new_achievements);
+      toast.success(`🏆 Achievement Unlocked!`);
+    }
+  };
+  
+  const loadAchievements = async () => {
+    const result = await getAllAchievements();
+    if (result.success) {
+      setAllAchievements(result.data);
+    }
+  };
+  
+  const getAchievementData = (achievementId) => {
+    return allAchievements.find(a => a.id === achievementId);
+  };
   
   const formatTime = (ms) => {
     const totalSeconds = Math.floor(ms / 1000);
