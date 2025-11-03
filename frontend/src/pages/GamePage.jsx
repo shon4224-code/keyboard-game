@@ -7,6 +7,7 @@ import GamePlaySprint from '@/components/game/GamePlaySprint';
 import GameResults from '@/components/game/GameResults';
 import Leaderboard from '@/components/game/Leaderboard';
 import UsernameModal from '@/components/ui/UsernameModal';
+import Footer from '@/components/Footer';
 import { getDailyChallenge } from '@/utils/wordGenerator';
 import { getDailyQuoteChallenge } from '@/utils/quoteGenerator';
 import { getDailyTriviaQuestions, calculateTriviaScore } from '@/utils/triviaHelper';
