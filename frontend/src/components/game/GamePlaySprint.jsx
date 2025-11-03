@@ -117,7 +117,7 @@ export default function GamePlaySprint({
   const timeProgress = (timeRemaining / SPRINT_DURATION) * 100;
 
   return (
-    <div className="w-full max-w-3xl mx-auto space-y-4 animate-flip-in">
+    <div className="w-full max-w-3xl mx-auto space-y-4 px-4 animate-flip-in">
       {/* Timer and Stats */}
       <Card className="p-4 sm:p-5">
         <div className="flex items-center justify-between mb-3">
@@ -151,7 +151,7 @@ export default function GamePlaySprint({
           </h2>
           
           {/* Letter boxes showing progress */}
-          <div className="flex justify-center gap-2 flex-wrap">
+          <div className="flex justify-center gap-2 flex-wrap mb-4">
             {currentWord.split('').map((letter, index) => {
               const isTyped = index < typedText.length;
               const isCorrect = isTyped && typedText[index] === letter;
@@ -173,21 +173,23 @@ export default function GamePlaySprint({
               );
             })}
           </div>
-        </div>
 
-        <Progress value={progress} className="h-2 max-w-md mx-auto" />
-        <p className="text-xs text-muted-foreground mt-2">
-          {typedText.length} / {currentWord.length}
-        </p>
+          <Progress value={progress} className="h-2 max-w-md mx-auto" />
+          <p className="text-xs text-muted-foreground mt-2">
+            {typedText.length} / {currentWord.length}
+          </p>
+        </div>
       </Card>
 
       {/* Randomized Keyboard */}
-      <RandomKeyboard 
-        onKeyPress={handleKeyPress}
-        currentWord={currentWord}
-        typedText={typedText}
-        keyboardKey={keyboardKey}
-      />
+      <div className="pb-4">
+        <RandomKeyboard 
+          onKeyPress={handleKeyPress}
+          currentWord={currentWord}
+          typedText={typedText}
+          keyboardKey={keyboardKey}
+        />
+      </div>
     </div>
   );
 }
