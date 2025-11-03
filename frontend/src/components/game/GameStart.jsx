@@ -47,7 +47,7 @@ export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuest
         )}
         
         {/* Title Section */}
-        <div className="space-y-2">
+        <div className="space-y-3">
           <div className="inline-block">
             <Badge variant="outline" className="px-3 py-1 text-xs font-medium">
               <Calendar className="w-3 h-3 mr-1.5 inline" />
@@ -57,7 +57,10 @@ export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuest
           <h2 className="text-3xl sm:text-4xl font-bold font-['Space_Grotesk'] tracking-tight">
             Today's Challenge
           </h2>
-          <p className="text-base text-muted-foreground max-w-md mx-auto">
+          <p className="text-lg sm:text-xl font-bold text-primary">
+            Think fast. Type faster. Conquer the chaos.
+          </p>
+          <p className="text-sm text-muted-foreground max-w-md mx-auto">
             Choose your mode and difficulty!
           </p>
         </div>
