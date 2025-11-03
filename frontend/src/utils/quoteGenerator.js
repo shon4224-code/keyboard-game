@@ -66,11 +66,20 @@ function getDayNumber() {
   return Math.floor(diff / oneDay);
 }
 
-// Get daily quote
+// Strip all punctuation from quote, keep only letters and spaces
+function stripPunctuation(text) {
+  return text
+    .replace(/[^a-zA-Z\s]/g, '') // Remove all non-letter, non-space characters
+    .replace(/\s+/g, ' ') // Replace multiple spaces with single space
+    .trim(); // Remove leading/trailing spaces
+}
+
+// Get daily quote (with punctuation removed)
 export function getDailyQuote() {
   const day = getDayNumber();
   const index = Math.floor(seededRandom(day + 1000) * QUOTE_LIBRARY.length);
-  return QUOTE_LIBRARY[index];
+  const rawQuote = QUOTE_LIBRARY[index];
+  return stripPunctuation(rawQuote);
 }
 
 // Get daily quote challenge
