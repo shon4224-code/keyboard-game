@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@/contexts/UserContext';
+import { getUserByUsername } from '@/utils/api';
 import { Keyboard } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -30,27 +31,37 @@ export default function UsernameModal({ open, onClose }) {
     }
 
     setLoading(true);
+    
+    // First try to register
     const result = await login(username.trim());
-    setLoading(false);
 
     if (result.success) {
-      toast.success('Welcome back, ' + username + '!');
+      setLoading(false);
+      toast.success('Welcome, ' + username + '!');
       onClose();
     } else {
+      // If username is taken, try to log in with existing username
       if (result.error.includes('already taken')) {
-        // Username exists - try to recover the account
-        toast.info('Username found! Logging you in...');
-        // Store the username anyway since they likely own this account
-        localStorage.setItem('keyboard_username', username.trim());
-        // Try to get the user data from backend
-        const { getUserByUsername } = await import('@/utils/api');
-        const userResult = await getUserByUsername(username.trim());
-        if (userResult.success) {
-          localStorage.setItem('keyboard_user_id', userResult.data.id);
-          localStorage.setItem('keyboard_username', userResult.data.username);
-          window.location.reload(); // Reload to refresh user context
+        toast.info('Username exists. Logging you in...');
+        
+        try {
+          const userResult = await getUserByUsername(username.trim());
+          if (userResult.success) {
+            localStorage.setItem('keyboard_user_id', userResult.data.id);
+            localStorage.setItem('keyboard_username', userResult.data.username);
+            setLoading(false);
+            toast.success('Welcome back, ' + username + '!');
+            window.location.reload();
+          } else {
+            setLoading(false);
+            toast.error('Could not log in. Please try a different username.');
+          }
+        } catch (error) {
+          setLoading(false);
+          toast.error('Login failed. Please try again.');
         }
       } else {
+        setLoading(false);
         toast.error('Failed to register. Please try again.');
       }
     }
