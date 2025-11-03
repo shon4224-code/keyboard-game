@@ -208,6 +208,46 @@ export default function GamePage() {
     toast.success(`Trivia Complete! Score: ${score}`);
   };
 
+  const handleSprintComplete = async (results) => {
+    setEndTime(60000); // Always 60 seconds
+    setGameState('complete');
+    setTriviaResults(results); // Reuse triviaResults to pass sprint data
+    
+    // Calculate WPM and accuracy
+    const wpm = calculateWPM({ length: results.totalCharacters }, 60000);
+    const accuracy = calculateAccuracy(results.totalCharacters, results.totalCharacters, results.mistakes);
+    
+    // Update streak
+    const newStreakData = updateStreak();
+    setStreakData(newStreakData);
+    
+    // Save stats
+    const newStats = {
+      todayTime: 60000,
+      bestTime: stats.bestTime ? Math.min(stats.bestTime, 60000) : 60000,
+      gamesPlayed: stats.gamesPlayed + 1,
+      streak: newStreakData.currentStreak,
+      wpm,
+      accuracy
+    };
+    localStorage.setItem('keyboard_stats', JSON.stringify(newStats));
+    setStats(newStats);
+    
+    // Submit to leaderboard if user is logged in
+    if (user) {
+      await submitScoreToLeaderboard({
+        wpm,
+        accuracy,
+        time_seconds: 60,
+        score: results.wordsCompleted,
+        mistakes: results.mistakes,
+        streak: newStreakData.currentStreak
+      });
+    }
+    
+    toast.success(`Sprint Complete! ${results.wordsCompleted} words typed!`);
+  };
+
   const submitScoreToLeaderboard = async (scoreData) => {
     try {
       const result = await submitScore({
