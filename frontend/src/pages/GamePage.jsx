@@ -335,6 +335,13 @@ export default function GamePage() {
           />
         )}
         
+        {gameState === 'playing' && gameMode === 'sprint' && (
+          <GamePlaySprint
+            startTime={startTime}
+            onComplete={handleSprintComplete}
+          />
+        )}
+        
         {gameState === 'complete' && (
           <GameResults
             completionTime={endTime}
