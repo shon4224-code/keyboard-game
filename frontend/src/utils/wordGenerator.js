@@ -58,18 +58,8 @@ export function generateDailyWords(difficulty = 'normal') {
   const day = getDayNumber();
   let wordConfig;
   
-  switch(difficulty) {
-    case 'easy':
-      wordConfig = [3, 4, 5]; // 3 words
-      break;
-    case 'insane':
-      wordConfig = [5, 6, 7, 8, 9, 8, 7]; // 7 words
-      break;
-    case 'normal':
-    case 'hard':
-    default:
-      wordConfig = [4, 5, 6, 7, 8]; // 5 words
-  }
+  // Both modes use 5 words of varying lengths
+  wordConfig = [4, 5, 6, 7, 8]; // 5 words
   
   const words = [];
   const usedWords = new Set();
