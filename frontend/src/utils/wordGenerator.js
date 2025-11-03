@@ -72,11 +72,23 @@ export function generateDailyWords(difficulty = 'normal') {
   }
   
   const words = [];
+  const usedWords = new Set();
+  
   wordConfig.forEach((length, index) => {
     const pool = WORD_POOLS[length];
-    const seed = day * wordConfig.length + index;
-    const randomIndex = Math.floor(seededRandom(seed) * pool.length);
-    words.push(pool[randomIndex]);
+    let attempts = 0;
+    let word;
+    
+    // Try to find a unique word, with fallback after 10 attempts
+    do {
+      const seed = day * wordConfig.length + index + attempts;
+      const randomIndex = Math.floor(seededRandom(seed) * pool.length);
+      word = pool[randomIndex];
+      attempts++;
+    } while (usedWords.has(word) && attempts < 10);
+    
+    words.push(word);
+    usedWords.add(word);
   });
   
   return words;
