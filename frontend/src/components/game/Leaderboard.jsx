@@ -86,6 +86,7 @@ export default function Leaderboard({ onClose }) {
                 <SelectItem value="words">Words</SelectItem>
                 <SelectItem value="quote">Quote</SelectItem>
                 <SelectItem value="trivia">Trivia</SelectItem>
+                <SelectItem value="sprint">Sprint</SelectItem>
               </SelectContent>
             </Select>
 
