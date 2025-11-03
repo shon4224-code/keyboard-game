@@ -199,13 +199,7 @@ def setup_routes(db: AsyncIOMotorDatabase):
     
     @router.get("/trivia/daily", response_model=List[TriviaQuestion])
     async def get_daily_trivia():
-        """Get daily trivia questions (5 questions, deterministic based on date)"""
-        from datetime import date
-        import hashlib
-        
-        # Generate seed from today's date
-        today = date.today().isoformat()
-        seed = int(hashlib.md5(today.encode()).hexdigest()[:8], 16)
+        """Get daily trivia questions (5 random questions that change each session)"""
         
         # Get all questions
         all_questions = await db.trivia_questions.find({}, {"_id": 0}).to_list(1000)
@@ -213,10 +207,13 @@ def setup_routes(db: AsyncIOMotorDatabase):
         if len(all_questions) < 5:
             raise HTTPException(status_code=404, detail="Not enough trivia questions in database")
         
-        # Deterministically select 5 questions based on date
-        import random
-        random.seed(seed)
-        daily_questions = random.sample(all_questions, min(5, len(all_questions)))
+        # Use MongoDB's random sampling for true randomization each time
+        pipeline = [
+            {"$sample": {"size": 5}},
+            {"$project": {"_id": 0}}
+        ]
+        
+        daily_questions = await db.trivia_questions.aggregate(pipeline).to_list(5)
         
         return daily_questions
     
