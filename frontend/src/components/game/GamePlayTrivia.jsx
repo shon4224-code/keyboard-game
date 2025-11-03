@@ -21,6 +21,15 @@ export default function GamePlayTrivia({
   const [elapsedTime, setElapsedTime] = useState(0);
   const [keyboardKey, setKeyboardKey] = useState(0);
 
+  // Safety check for questions
+  if (!questions || questions.length === 0) {
+    return (
+      <div className="text-center p-8">
+        <p className="text-lg text-muted-foreground">Loading trivia questions...</p>
+      </div>
+    );
+  }
+
   const currentQuestion = questions[currentQuestionIndex];
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
 
