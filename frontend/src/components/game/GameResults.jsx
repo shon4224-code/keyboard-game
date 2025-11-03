@@ -334,17 +334,27 @@ export default function GameResults({ completionTime, stats, streakData, difficu
           </Card>
         </div>
 
-        {/* Share Options */}
+        {/* Action Buttons */}
         {!showShareOptions ? (
           <div className="flex flex-col sm:flex-row gap-3 pt-4">
             <Button
               size="lg"
               variant="outline"
-              onClick={() => setShowShareOptions(true)}
+              onClick={handleShareCard}
+              disabled={generatingCard}
               className="flex-1"
             >
-              <Share2 className="w-5 h-5 mr-2" />
-              Share Results
+              <Download className="w-5 h-5 mr-2" />
+              {generatingCard ? 'Generating...' : 'Share Result Card'}
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={handleCreateChallenge}
+              className="flex-1"
+            >
+              <Users className="w-5 h-5 mr-2" />
+              Challenge a Friend
             </Button>
             <Button
               size="lg"
@@ -352,46 +362,10 @@ export default function GameResults({ completionTime, stats, streakData, difficu
               className="flex-1 bg-primary hover:bg-primary/90"
             >
               <RotateCcw className="w-5 h-5 mr-2" />
-              New Challenge
+              Play Again
             </Button>
           </div>
-        ) : (
-          <div className="space-y-3 pt-4">
-            <p className="text-sm font-semibold">Share your achievement:</p>
-            <div className="grid grid-cols-2 gap-3">
-              <Button
-                onClick={handleCopyShare}
-                variant="outline"
-                className="flex-1"
-              >
-                <Copy className="w-4 h-4 mr-2" />
-                Copy Text
-              </Button>
-              <Button
-                onClick={handleTwitterShare}
-                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white"
-              >
-                <Twitter className="w-4 h-4 mr-2" />
-                Twitter
-              </Button>
-            </div>
-            <Button
-              onClick={() => setShowShareOptions(false)}
-              variant="ghost"
-              size="sm"
-              className="w-full"
-            >
-              Cancel
-            </Button>
-          </div>
-        )}
-
-        {/* Next challenge info */}
-        <div className="pt-4 border-t">
-          <p className="text-sm text-muted-foreground">
-            Next challenge available at midnight
-          </p>
-        </div>
+        ) : null}
       </Card>
     </div>
   );
