@@ -3,6 +3,7 @@ import GameHeader from '@/components/game/GameHeader';
 import GameStart from '@/components/game/GameStart';
 import GamePlay from '@/components/game/GamePlay';
 import GamePlayTrivia from '@/components/game/GamePlayTrivia';
+import GamePlaySprint from '@/components/game/GamePlaySprint';
 import GameResults from '@/components/game/GameResults';
 import Leaderboard from '@/components/game/Leaderboard';
 import UsernameModal from '@/components/ui/UsernameModal';
@@ -17,7 +18,7 @@ import { toast } from 'sonner';
 
 export default function GamePage() {
   const [gameState, setGameState] = useState('start'); // start, playing, complete
-  const [gameMode, setGameMode] = useState('words'); // words, quote, or trivia
+  const [gameMode, setGameMode] = useState('words'); // words, quote, trivia, or sprint
   const [dailyWords, setDailyWords] = useState([]);
   const [dailyQuote, setDailyQuote] = useState('');
   const [triviaQuestions, setTriviaQuestions] = useState([]);
