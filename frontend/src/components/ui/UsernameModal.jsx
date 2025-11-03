@@ -81,7 +81,7 @@ export default function UsernameModal({ open, onClose }) {
           </div>
           <DialogTitle className="text-center text-2xl">Welcome to Keyboard!</DialogTitle>
           <DialogDescription className="text-center">
-            Choose a username to track your progress and compete on the global leaderboards
+            Enter your username to track your progress and compete on leaderboards. If you have played before, enter your existing username to continue.
           </DialogDescription>
         </DialogHeader>
         
@@ -97,7 +97,7 @@ export default function UsernameModal({ open, onClose }) {
               className="text-center text-lg"
             />
             <p className="text-xs text-muted-foreground text-center">
-              3-20 characters • Visible on leaderboards
+              3-20 characters • New or existing username
             </p>
           </div>
           
@@ -107,7 +107,7 @@ export default function UsernameModal({ open, onClose }) {
             size="lg"
             disabled={loading}
           >
-            {loading ? 'Creating...' : 'Start Playing'}
+            {loading ? 'Loading...' : 'Continue'}
           </Button>
         </form>
       </DialogContent>
