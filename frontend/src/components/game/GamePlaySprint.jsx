@@ -151,7 +151,7 @@ export default function GamePlaySprint({
           </h2>
           
           {/* Letter boxes showing progress */}
-          <div className="flex justify-center gap-2 flex-wrap mb-4">
+          <div className="flex justify-center gap-2 mb-4 overflow-x-auto px-2">
             {currentWord.split('').map((letter, index) => {
               const isTyped = index < typedText.length;
               const isCorrect = isTyped && typedText[index] === letter;
@@ -161,7 +161,7 @@ export default function GamePlaySprint({
                 <div
                   key={index}
                   className={`
-                    w-12 h-12 sm:w-14 sm:h-14 rounded-lg border-2 flex items-center justify-center
+                    w-12 h-12 sm:w-14 sm:h-14 rounded-lg border-2 flex items-center justify-center flex-shrink-0
                     text-xl sm:text-2xl font-bold font-['Space_Grotesk'] transition-all
                     ${isCorrect ? 'bg-success/20 border-success text-success' : ''}
                     ${isWrong ? 'bg-destructive/20 border-destructive text-destructive' : ''}
