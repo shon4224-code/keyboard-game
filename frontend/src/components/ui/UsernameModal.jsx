@@ -34,11 +34,22 @@ export default function UsernameModal({ open, onClose }) {
     setLoading(false);
 
     if (result.success) {
-      toast.success('Welcome, ' + username + '!');
+      toast.success('Welcome back, ' + username + '!');
       onClose();
     } else {
       if (result.error.includes('already taken')) {
-        toast.error('Username already taken. Please choose another.');
+        // Username exists - try to recover the account
+        toast.info('Username found! Logging you in...');
+        // Store the username anyway since they likely own this account
+        localStorage.setItem('keyboard_username', username.trim());
+        // Try to get the user data from backend
+        const { getUserByUsername } = await import('@/utils/api');
+        const userResult = await getUserByUsername(username.trim());
+        if (userResult.success) {
+          localStorage.setItem('keyboard_user_id', userResult.data.id);
+          localStorage.setItem('keyboard_username', userResult.data.username);
+          window.location.reload(); // Reload to refresh user context
+        }
       } else {
         toast.error('Failed to register. Please try again.');
       }
