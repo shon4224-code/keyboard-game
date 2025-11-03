@@ -5,9 +5,12 @@ from datetime import datetime, timedelta, timezone
 from models import (
     User, UserCreate, 
     LeaderboardEntry, LeaderboardSubmit,
-    TriviaQuestion, TriviaQuestionCreate
+    TriviaQuestion, TriviaQuestionCreate,
+    Achievement, UserAchievement,
+    Challenge, ChallengeCreate
 )
 from anticheat import validate_submission
+from achievements import ACHIEVEMENTS, check_achievements
 import logging
 
 logger = logging.getLogger(__name__)
