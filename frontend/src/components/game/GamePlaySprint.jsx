@@ -17,20 +17,35 @@ export default function GamePlaySprint({
   const [keyboardKey, setKeyboardKey] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(60000); // 60 seconds in ms
   const [totalCharacters, setTotalCharacters] = useState(0);
+  const [usedWords, setUsedWords] = useState(new Set());
 
   const SPRINT_DURATION = 60000; // 60 seconds
 
-  // Generate random word for sprint mode
+  const WORD_POOL = [
+    'code', 'type', 'fast', 'game', 'play', 'word', 'time', 'keys', 'rush', 'beat',
+    'jump', 'spin', 'dash', 'flux', 'zoom', 'glow', 'blur', 'sync', 'hack', 'byte',
+    'swift', 'power', 'focus', 'magic', 'sharp', 'smart', 'quick', 'speed', 'cloud', 'spark',
+    'flash', 'brain', 'craft', 'prime', 'shift', 'score', 'boost', 'level', 'debug', 'index',
+    'racing', 'typing', 'winner', 'master', 'puzzle', 'sprint', 'leader', 'finger', 'random', 'combat'
+  ];
+
+  // Generate random word for sprint mode (no duplicates)
   const generateWord = useCallback(() => {
-    const words = [
-      'code', 'type', 'fast', 'game', 'play', 'word', 'time', 'keys', 'rush', 'beat',
-      'jump', 'spin', 'dash', 'flux', 'zoom', 'glow', 'blur', 'sync', 'hack', 'byte',
-      'swift', 'power', 'focus', 'magic', 'sharp', 'smart', 'quick', 'speed', 'cloud', 'spark',
-      'flash', 'brain', 'craft', 'prime', 'shift', 'score', 'boost', 'level', 'debug', 'index',
-      'racing', 'typing', 'winner', 'master', 'puzzle', 'sprint', 'leader', 'finger', 'random', 'combat'
-    ];
-    return words[Math.floor(Math.random() * words.length)].toUpperCase();
-  }, []);
+    // If all words used, reset
+    if (usedWords.size >= WORD_POOL.length) {
+      setUsedWords(new Set());
+    }
+    
+    let word;
+    let attempts = 0;
+    do {
+      word = WORD_POOL[Math.floor(Math.random() * WORD_POOL.length)];
+      attempts++;
+    } while (usedWords.has(word) && attempts < 50);
+    
+    setUsedWords(prev => new Set([...prev, word]));
+    return word.toUpperCase();
+  }, [usedWords]);
 
   // Initialize with first word
   useEffect(() => {
