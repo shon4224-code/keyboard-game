@@ -28,10 +28,8 @@ export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuest
   });
 
   const difficultyInfo = {
-    easy: { words: 3, letters: '3-5', scramble: 'No scrambling', color: 'text-green-500', icon: Shield },
-    normal: { words: 5, letters: '4-8', scramble: 'Same keyboard', color: 'text-blue-500', icon: Shield },
-    hard: { words: 5, letters: '4-8', scramble: 'Scrambles each word', color: 'text-orange-500', icon: Zap },
-    insane: { words: 7, letters: '5-9', scramble: 'Scrambles each word', color: 'text-red-500', icon: Flame }
+    normal: { words: 5, letters: '4-8', scramble: 'Keyboard jumbles once', color: 'text-blue-500', icon: Shield },
+    hard: { words: 5, letters: '4-8', scramble: 'Scrambles after each word', color: 'text-orange-500', icon: Zap }
   };
 
   return (
