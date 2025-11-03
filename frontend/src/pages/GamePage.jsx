@@ -309,7 +309,7 @@ export default function GamePage() {
           />
         )}
         
-        {gameState === 'playing' && gameMode !== 'trivia' && (
+        {gameState === 'playing' && gameMode !== 'trivia' && gameMode !== 'sprint' && (
           <GamePlay
             dailyWords={dailyWords}
             dailyQuote={dailyQuote}
