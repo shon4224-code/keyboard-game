@@ -1,3 +1,11 @@
+/**
+ * Keyboard Game - Daily Typing Challenge
+ * Copyright (c) 2025 All Rights Reserved
+ * 
+ * This software and its source code are protected by copyright law.
+ * Unauthorized copying, modification, or distribution is prohibited.
+ */
+
 import { useState, useEffect } from 'react';
 import GameHeader from '@/components/game/GameHeader';
 import GameStart from '@/components/game/GameStart';
