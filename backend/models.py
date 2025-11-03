@@ -76,3 +76,50 @@ class TriviaQuestionCreate(BaseModel):
     category: str
     difficulty: str
     alternative_answers: List[str] = []
+
+
+# Achievement Models
+class Achievement(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str
+    name: str
+    description: str
+    icon: str
+    category: str  # speed, accuracy, streak, completion, special
+    requirement: dict  # e.g. {"wpm": 100}, {"streak": 7}, {"games": 50}
+
+
+class UserAchievement(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    achievement_id: str
+    unlocked_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+# Friend Challenge Models
+class Challenge(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    challenger_username: str
+    mode: str
+    difficulty: str
+    wpm: float
+    accuracy: float
+    time_seconds: float
+    score: int
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    expires_at: datetime  # Challenges expire after 7 days
+
+
+class ChallengeCreate(BaseModel):
+    challenger_username: str
+    mode: str
+    difficulty: str
+    wpm: float
+    accuracy: float
+    time_seconds: float
+    score: int
