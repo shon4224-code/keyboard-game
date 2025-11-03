@@ -188,7 +188,7 @@ export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuest
               </p>
             </div>
           </div>
-        ) : (
+        ) : gameMode === 'trivia' ? (
           <div className="space-y-3 py-3">
             <div className="flex items-center justify-center gap-2 text-muted-foreground">
               <Brain className="w-3 h-3 text-purple-500" />
@@ -210,10 +210,35 @@ export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuest
               )}
             </div>
           </div>
+        ) : (
+          <div className="space-y-3 py-3">
+            <div className="flex items-center justify-center gap-2 text-muted-foreground">
+              <Timer className="w-3 h-3 text-orange-500" />
+              <span className="text-xs font-medium">Sprint Challenge</span>
+            </div>
+            <div className="bg-orange-500/10 rounded-lg p-4 max-w-md mx-auto">
+              <p className="text-sm text-foreground text-center font-medium mb-2">
+                Type as many words as you can in 60 seconds!
+              </p>
+              <p className="text-xs text-muted-foreground text-center">
+                Keyboard scrambles after each word • One difficulty level
+              </p>
+              <div className="mt-3 flex items-center justify-center gap-4">
+                <Badge variant="secondary" className="text-xs">
+                  <Timer className="w-3 h-3 mr-1" />
+                  60 sec timer
+                </Badge>
+                <Badge variant="secondary" className="text-xs">
+                  <Zap className="w-3 h-3 mr-1" />
+                  Jumbled keys
+                </Badge>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* Difficulty Selection - Only for words/quote mode */}
-        {gameMode !== 'trivia' && (
+        {gameMode !== 'trivia' && gameMode !== 'sprint' && (
           <div className="space-y-2 pt-2">
             <h3 className="font-semibold text-sm text-center">Choose Difficulty:</h3>
             <div className="grid grid-cols-2 gap-2">
