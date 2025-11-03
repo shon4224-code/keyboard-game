@@ -373,6 +373,8 @@ export default function GamePage() {
           onClose={() => setShowUsernameModal(false)} 
         />
       )}
+      
+      <Footer />
     </div>
   );
 }
