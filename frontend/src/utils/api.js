@@ -118,3 +118,68 @@ export const getRandomTrivia = async (limit = 5, category = null, difficulty = n
     };
   }
 };
+
+// Achievement API
+export const getAllAchievements = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/api/achievements`);
+    return { success: true, data: response.data };
+  } catch (error) {
+    return { 
+      success: false, 
+      error: error.response?.data?.detail || 'Failed to fetch achievements' 
+    };
+  }
+};
+
+export const getUserAchievements = async (userId) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/api/achievements/user/${userId}`);
+    return { success: true, data: response.data };
+  } catch (error) {
+    return { 
+      success: false, 
+      error: error.response?.data?.detail || 'Failed to fetch user achievements' 
+    };
+  }
+};
+
+export const checkAchievements = async (userId, gameData) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/api/achievements/check?user_id=${userId}`,
+      gameData
+    );
+    return { success: true, data: response.data };
+  } catch (error) {
+    return { 
+      success: false, 
+      error: error.response?.data?.detail || 'Failed to check achievements' 
+    };
+  }
+};
+
+// Challenge API
+export const createChallenge = async (challengeData) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/api/challenges/create`, challengeData);
+    return { success: true, data: response.data };
+  } catch (error) {
+    return { 
+      success: false, 
+      error: error.response?.data?.detail || 'Failed to create challenge' 
+    };
+  }
+};
+
+export const getChallenge = async (challengeId) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/api/challenges/${challengeId}`);
+    return { success: true, data: response.data };
+  } catch (error) {
+    return { 
+      success: false, 
+      error: error.response?.data?.detail || 'Failed to fetch challenge' 
+    };
+  }
+};
