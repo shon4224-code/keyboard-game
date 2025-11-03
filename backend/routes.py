@@ -220,4 +220,106 @@ def setup_routes(db: AsyncIOMotorDatabase):
         
         return daily_questions
     
+    # ==================== ACHIEVEMENT ROUTES ====================
+    
+    @router.get("/achievements", response_model=List[Achievement])
+    async def get_all_achievements():
+        """Get all available achievements"""
+        return [Achievement(**a) for a in ACHIEVEMENTS]
+    
+    @router.get("/achievements/user/{user_id}", response_model=List[UserAchievement])
+    async def get_user_achievements(user_id: str):
+        """Get achievements unlocked by a user"""
+        achievements = await db.user_achievements.find(
+            {"user_id": user_id},
+            {"_id": 0}
+        ).to_list(100)
+        
+        for achievement in achievements:
+            if isinstance(achievement['unlocked_at'], str):
+                achievement['unlocked_at'] = datetime.fromisoformat(achievement['unlocked_at'])
+        
+        return achievements
+    
+    @router.post("/achievements/check")
+    async def check_user_achievements(user_id: str, game_data: dict):
+        """Check and unlock new achievements after a game"""
+        # Get user stats
+        user = await db.users.find_one({"id": user_id})
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Get existing achievements
+        existing = await db.user_achievements.find(
+            {"user_id": user_id}
+        ).to_list(100)
+        existing_ids = {a["achievement_id"] for a in existing}
+        
+        # Check which achievements to unlock
+        user_stats = {
+            "total_games": user.get("total_games", 0),
+            "best_wpm": user.get("best_wpm", 0),
+            "streak": user.get("streak", 0),
+            "modes_played": user.get("modes_played", [])
+        }
+        
+        new_achievement_ids = check_achievements(user_stats, game_data)
+        
+        # Filter out already unlocked
+        truly_new = [aid for aid in new_achievement_ids if aid not in existing_ids]
+        
+        # Save new achievements
+        new_achievements = []
+        for achievement_id in truly_new:
+            achievement = UserAchievement(
+                user_id=user_id,
+                achievement_id=achievement_id
+            )
+            doc = achievement.model_dump()
+            doc['unlocked_at'] = doc['unlocked_at'].isoformat()
+            await db.user_achievements.insert_one(doc)
+            new_achievements.append(achievement)
+        
+        return {"new_achievements": [a.achievement_id for a in new_achievements]}
+    
+    # ==================== CHALLENGE ROUTES ====================
+    
+    @router.post("/challenges/create", response_model=Challenge)
+    async def create_challenge(challenge: ChallengeCreate):
+        """Create a friend challenge"""
+        expires_at = datetime.now(timezone.utc) + timedelta(days=7)
+        
+        challenge_obj = Challenge(
+            **challenge.model_dump(),
+            expires_at=expires_at
+        )
+        
+        doc = challenge_obj.model_dump()
+        doc['created_at'] = doc['created_at'].isoformat()
+        doc['expires_at'] = doc['expires_at'].isoformat()
+        
+        await db.challenges.insert_one(doc)
+        logger.info(f"Challenge created by {challenge.challenger_username}")
+        
+        return challenge_obj
+    
+    @router.get("/challenges/{challenge_id}", response_model=Challenge)
+    async def get_challenge(challenge_id: str):
+        """Get a challenge by ID"""
+        challenge = await db.challenges.find_one({"id": challenge_id}, {"_id": 0})
+        if not challenge:
+            raise HTTPException(status_code=404, detail="Challenge not found")
+        
+        if isinstance(challenge['created_at'], str):
+            challenge['created_at'] = datetime.fromisoformat(challenge['created_at'])
+        if isinstance(challenge['expires_at'], str):
+            challenge['expires_at'] = datetime.fromisoformat(challenge['expires_at'])
+        
+        # Check if expired
+        if challenge['expires_at'] < datetime.now(timezone.utc):
+            raise HTTPException(status_code=410, detail="Challenge expired")
+        
+        return challenge
+    
     return router
+
