@@ -235,6 +235,25 @@ export default function GameResults({ completionTime, stats, streakData, difficu
             <p className="text-sm text-muted-foreground mt-1">{streakData.currentStreak} day streak achieved!</p>
           </div>
         )}
+        
+        {/* New Achievements */}
+        {newAchievements.length > 0 && (
+          <div className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-lg p-4 border-2 border-yellow-500/50 animate-bounce-in">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Award className="w-6 h-6 text-yellow-500" />
+              <p className="text-xl font-bold">Achievement Unlocked!</p>
+            </div>
+            {newAchievements.map(achievementId => {
+              const achievement = getAchievementData(achievementId);
+              return achievement ? (
+                <div key={achievementId} className="flex items-center justify-center gap-2 text-lg">
+                  <span>{achievement.icon}</span>
+                  <span className="font-semibold">{achievement.name}</span>
+                </div>
+              ) : null;
+            })}
+          </div>
+        )}
 
         {/* Title */}
         <div className="space-y-2">
