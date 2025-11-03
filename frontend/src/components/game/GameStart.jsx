@@ -241,28 +241,8 @@ export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuest
         {/* Difficulty Selection - Only for words mode */}
         {gameMode === 'words' && (
           <div className="space-y-2 pt-2">
-            <h3 className="font-semibold text-sm text-center">Choose Difficulty:</h3>
+            <h3 className="font-semibold text-sm text-center">Choose Mode:</h3>
             <div className="grid grid-cols-2 gap-2">
-            <button
-              onClick={() => setDifficulty('easy')}
-              className={`
-                p-3 rounded-lg border-2 transition-all
-                ${
-                  difficulty === 'easy'
-                    ? 'border-green-500 bg-green-500/10 shadow-md'
-                    : 'border-border hover:border-green-500/50'
-                }
-              `}
-            >
-              <div className="flex flex-col items-center gap-1.5">
-                <Shield className="w-5 h-5 text-green-500" />
-                <span className="font-semibold text-sm">Easy</span>
-                <span className="text-xs text-muted-foreground text-center">
-                  3 words, no scramble
-                </span>
-              </div>
-            </button>
-            
             <button
               onClick={() => setDifficulty('normal')}
               className={`
@@ -276,9 +256,9 @@ export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuest
             >
               <div className="flex flex-col items-center gap-1.5">
                 <Shield className="w-5 h-5 text-primary" />
-                <span className="font-semibold text-sm">Normal</span>
+                <span className="font-semibold text-sm">One Jumble</span>
                 <span className="text-xs text-muted-foreground text-center">
-                  5 words, same keyboard
+                  5 words, keyboard stays same
                 </span>
               </div>
             </button>
@@ -289,23 +269,22 @@ export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuest
                 p-3 rounded-lg border-2 transition-all
                 ${
                   difficulty === 'hard'
-                    ? 'border-destructive bg-destructive/10 shadow-md'
-                    : 'border-border hover:border-destructive/50'
+                    ? 'border-orange-500 bg-orange-500/10 shadow-md'
+                    : 'border-border hover:border-orange-500/50'
                 }
               `}
             >
               <div className="flex flex-col items-center gap-1.5">
-                <Zap className="w-5 h-5 text-destructive" />
-                <span className="font-semibold text-sm text-destructive">Hard</span>
+                <Zap className="w-5 h-5 text-orange-500" />
+                <span className="font-semibold text-sm">Multi Jumble</span>
                 <span className="text-xs text-muted-foreground text-center">
-                  5 words, scrambles!
+                  5 words, scrambles each word
                 </span>
               </div>
             </button>
-
-            <button
-              onClick={() => setDifficulty('insane')}
-              className={`
+            </div>
+          </div>
+        )}
                 p-3 rounded-lg border-2 transition-all
                 ${
                   difficulty === 'insane'
