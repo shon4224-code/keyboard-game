@@ -55,9 +55,11 @@ export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuest
           <h2 className="text-3xl sm:text-4xl font-bold font-['Space_Grotesk'] tracking-tight">
             Today's Challenge
           </h2>
-          <p className="text-lg sm:text-xl font-bold text-primary">
-            Think fast. Type faster. Conquer the chaos.
-          </p>
+          <div className="text-lg sm:text-xl font-bold text-primary space-y-1">
+            <p>Think fast.</p>
+            <p>Type faster.</p>
+            <p>Conquer the chaos.</p>
+          </div>
           <p className="text-sm text-muted-foreground max-w-md mx-auto">
             Choose your mode and difficulty!
           </p>
