@@ -46,8 +46,22 @@ export default function UsernameModal({ open, onClose }) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+    <Dialog open={open} onOpenChange={(isOpen) => {
+      // Prevent closing the modal if user hasn't registered yet
+      if (!isOpen && !loading) {
+        const storedUserId = localStorage.getItem('keyboard_user_id');
+        if (storedUserId) {
+          onClose();
+        }
+      }
+    }}>
+      <DialogContent className="sm:max-w-md" onInteractOutside={(e) => {
+        // Prevent closing by clicking outside if no user is registered
+        const storedUserId = localStorage.getItem('keyboard_user_id');
+        if (!storedUserId) {
+          e.preventDefault();
+        }
+      }}>
         <DialogHeader>
           <div className="flex items-center justify-center mb-4">
             <div className="p-3 bg-primary/10 rounded-full">
