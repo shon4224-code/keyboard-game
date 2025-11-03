@@ -51,6 +51,66 @@ export default function GameResults({ completionTime, stats, streakData, difficu
     return allAchievements.find(a => a.id === achievementId);
   };
   
+  const handleShareCard = async () => {
+    setGeneratingCard(true);
+    try {
+      const achievement = newAchievements.length > 0 ? getAchievementData(newAchievements[0]) : null;
+      
+      const cardData = {
+        wpm: stats.wpm || 0,
+        accuracy: stats.accuracy || 0,
+        mode: gameMode,
+        difficulty: difficulty || '',
+        score: triviaResults?.correctCount || 0,
+        streak: stats.streak || 0,
+        username: user?.username || 'Player',
+        achievement: achievement ? achievement.name : null
+      };
+      
+      const blob = await generateResultCard(cardData);
+      const result = await shareResultCard(blob, cardData);
+      
+      if (result.success) {
+        if (result.fallback) {
+          toast.success('Result card downloaded!');
+        } else {
+          toast.success('Shared successfully!');
+        }
+      }
+    } catch (error) {
+      toast.error('Failed to generate result card');
+    }
+    setGeneratingCard(false);
+  };
+  
+  const handleCreateChallenge = async () => {
+    if (!user) {
+      toast.error('Please log in to create challenges');
+      return;
+    }
+    
+    try {
+      const challengeData = {
+        challenger_username: user.username,
+        mode: gameMode,
+        difficulty: difficulty || 'normal',
+        wpm: stats.wpm || 0,
+        accuracy: stats.accuracy || 0,
+        time_seconds: completionTime / 1000,
+        score: triviaResults?.correctCount || 0
+      };
+      
+      const result = await createChallenge(challengeData);
+      if (result.success) {
+        const challengeUrl = `${window.location.origin}?challenge=${result.data.id}`;
+        await navigator.clipboard.writeText(challengeUrl);
+        toast.success('Challenge link copied to clipboard!');
+      }
+    } catch (error) {
+      toast.error('Failed to create challenge');
+    }
+  };
+  
   const formatTime = (ms) => {
     const totalSeconds = Math.floor(ms / 1000);
     const minutes = Math.floor(totalSeconds / 60);
