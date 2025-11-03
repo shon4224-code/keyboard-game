@@ -285,25 +285,6 @@ export default function GameStart({ onStart, dailyWords, dailyQuote, triviaQuest
             </div>
           </div>
         )}
-                p-3 rounded-lg border-2 transition-all
-                ${
-                  difficulty === 'insane'
-                    ? 'border-red-500 bg-red-500/10 shadow-md'
-                    : 'border-border hover:border-red-500/50'
-                }
-              `}
-            >
-              <div className="flex flex-col items-center gap-1.5">
-                <Flame className="w-5 h-5 text-red-500" />
-                <span className="font-semibold text-sm text-red-500">Insane</span>
-                <span className="text-xs text-muted-foreground text-center">
-                  7 words, scrambles!
-                </span>
-              </div>
-            </button>
-          </div>
-        </div>
-        )}
 
         {/* Start Button */}
         <div className="pt-3">
